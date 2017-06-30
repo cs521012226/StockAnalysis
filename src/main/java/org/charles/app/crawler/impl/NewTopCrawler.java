@@ -41,8 +41,10 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 		List<NewTop> rs = new ArrayList<NewTop>();
 		Unit<NewTop> data = new Unit<NewTop>();
 		
+		String type = getType();
+		
 		while(startPageNumber <= endPageNumber){
-			String url = String.format(getUrl(), getType(), startPageNumber);
+			String url = String.format(getUrl(), type, startPageNumber);
 			
 			Document doc = HtmlUtil.getDoc(url);
 			

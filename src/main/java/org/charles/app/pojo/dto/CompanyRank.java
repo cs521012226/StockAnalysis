@@ -1,5 +1,7 @@
 package org.charles.app.pojo.dto;
 
+import java.math.BigDecimal;
+
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -8,11 +10,12 @@ import com.alibaba.fastjson.JSONObject;
  * 2017年6月28日
  */
 public class CompanyRank {
-
-	private String cmpName;		//机构名称
-	private String rankCountDay;	//今日上榜次数
-	private String rankCountWeek;	//近一周上榜次数
-	private String rankCountMonth;	//近一月上榜次数
+					
+	private String cmpName;		//营业部名称
+	private Integer rankCount;	//上榜次数
+	private BigDecimal amount;		//合计动用资金（万）
+	private Integer rankCountYear;	//年内上榜次数
+	private Integer buyStockCount;		//年内买入股票只数
 	
 	@Override
 	public String toString() {
@@ -26,28 +29,37 @@ public class CompanyRank {
 		this.cmpName = cmpName;
 	}
 
-	public String getRankCountDay() {
-		return rankCountDay;
+
+	public Integer getRankCount() {
+		return rankCount;
 	}
 
-	public void setRankCountDay(String rankCountDay) {
-		this.rankCountDay = rankCountDay;
+	public void setRankCount(Integer rankCount) {
+		this.rankCount = rankCount;
 	}
 
-	public String getRankCountWeek() {
-		return rankCountWeek;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 
-	public void setRankCountWeek(String rankCountWeek) {
-		this.rankCountWeek = rankCountWeek;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
-	public String getRankCountMonth() {
-		return rankCountMonth;
+	public Integer getRankCountYear() {
+		return rankCountYear;
 	}
 
-	public void setRankCountMonth(String rankCountMonth) {
-		this.rankCountMonth = rankCountMonth;
+	public void setRankCountYear(Integer rankCountYear) {
+		this.rankCountYear = rankCountYear;
+	}
+
+	public Integer getBuyStockCount() {
+		return buyStockCount;
+	}
+
+	public void setBuyStockCount(Integer buyStockCount) {
+		this.buyStockCount = buyStockCount;
 	}
 	
 }

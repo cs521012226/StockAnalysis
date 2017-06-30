@@ -1,16 +1,10 @@
 package org.charles.app.crawler.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
-import org.charles.app.crawler.UrlCrawler;
 import org.charles.app.enums.Period;
 import org.charles.app.pojo.dto.CompanyRank;
 import org.charles.app.util.HtmlUtil;
@@ -24,9 +18,10 @@ import org.jsoup.select.Elements;
  * @author YeChao
  * 2017年6月28日
  */
-public class CompanyRankCrawler implements UrlCrawler {
+public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 	private static Logger logger = Logger.getLogger(CompanyRankCrawler.class);
-	private String url;		//"http://data.10jqka.com.cn/ifmarket/lhbyyb/type/%s/tab/sbcs/field/sbcs/sort/desc/page/%s/";
+	
+	private Period period = Period.DAY;
 
 	@Override
 	public void craw() {
@@ -38,123 +33,80 @@ public class CompanyRankCrawler implements UrlCrawler {
 		}
 	}
 	
-	public List<CompanyRank> getData() throws Exception{
-		ExecutorService es = Executors.newFixedThreadPool(3);
-		Future<List<CompanyRank>> f1 = es.submit(new Runner(Period.DAY));
-		Future<List<CompanyRank>> f2 = es.submit(new Runner(Period.WEEK));
-		Future<List<CompanyRank>> f3 = es.submit(new Runner(Period.MONTH));
-		es.shutdown();
+	public Unit<CompanyRank> parser(int startPageNumber, int endPageNumber){
 		
-		List<CompanyRank> dataSource = f1.get();
-		dataSource.addAll(f2.get());
-		dataSource.addAll(f3.get());
-		
-		Map<String, CompanyRank> dataMap = new LinkedHashMap<String, CompanyRank>();
-		
-		for(CompanyRank cr : dataSource){
-			String cmpName = cr.getCmpName();
-			
-			if(!dataMap.containsKey(cmpName)){
-				dataMap.put(cmpName, cr);
-			}
-			CompanyRank srcCmpRank = dataMap.get(cmpName);
-			if(StringUtil.isBlank(srcCmpRank.getRankCountDay())){
-				srcCmpRank.setRankCountDay(cr.getRankCountDay());
-			}
-			if(StringUtil.isBlank(srcCmpRank.getRankCountWeek())){
-				srcCmpRank.setRankCountWeek(cr.getRankCountWeek());
-			}
-			if(StringUtil.isBlank(srcCmpRank.getRankCountMonth())){
-				srcCmpRank.setRankCountMonth(cr.getRankCountMonth());
-			}
-		}
-		
-		List<CompanyRank> rs = new ArrayList<CompanyRank>(dataMap.size());
-		for(Map.Entry<String, CompanyRank> rc : dataMap.entrySet()){
-			rs.add(rc.getValue());
-		}
-		return rs;
-	}
-	
-	
-	private class Runner implements Callable<List<CompanyRank>>{
-		
-		private Period period;
-		public Runner(Period period){
-			this.period = period;
-		}
-
-		@Override
-		public List<CompanyRank> call() throws Exception {
-			return CompanyRankCrawler.this.parser(period);
-		}
-	}
-	
-	
-	public List<CompanyRank> parser(Period period){
-		
-		String type = null;
-		switch (period) {
-		case WEEK:
-			type = "2";
-			break;
-		case MONTH:
-			type = "3";
-			break;
-		default:
-			type = "1";
-			break;
-		}
 		List<CompanyRank> rs = new ArrayList<CompanyRank>();
+		Unit<CompanyRank> data = new Unit<CompanyRank>();
 		
-		int totolPage = -1;
-		int pageNumber = 1;
+		String type = getType();
 		
-		while(totolPage == -1 || pageNumber <= totolPage){
-			String url = String.format(this.url, type, pageNumber);
+		while(startPageNumber <= endPageNumber){
+			String url = String.format(getUrl(), type, startPageNumber);
 			
 			Document doc = HtmlUtil.getDoc(url);
 			
-			if(totolPage == -1){
-				String pageInfo = doc.select(".page_info").text();
-				totolPage = Integer.valueOf(pageInfo.split("/")[1]);
+			String pageInfo = doc.select(".page_info").text();
+			if(!StringUtil.isBlank(pageInfo)){
+				int totolPage = Integer.valueOf(pageInfo.split("/")[1]);
+				data.setTotolPage(totolPage);
 			}
 			
-			Elements row = doc.select("td.tl.rel");
+			Elements row = doc.select("tbody tr");
 			
 			for(Element r : row){
-				String cmpName = r.child(0).attr("title");
-				String rankCount = r.nextElementSibling().text();
+				int colIndex = 1;
+				
+				String cmpName = r.child(colIndex++).child(0).attr("title");		//营业部名称
+				Integer rankCount = Integer.valueOf(r.child(colIndex++).text());	//上榜次数
+				BigDecimal amount = convertUnit(r.child(colIndex++).text());		//合计动用资金
+				Integer rankCountYear = Integer.valueOf(r.child(colIndex++).text());	//年内上榜次数
+				Integer buyStockCount = Integer.valueOf(r.child(colIndex++).text());		//年内买入股票只数
 				
 				CompanyRank cr = new CompanyRank();
+				cr.setCmpName(cmpName);
+				cr.setRankCount(rankCount);
+				cr.setAmount(amount);
+				cr.setRankCountYear(rankCountYear);
+				cr.setBuyStockCount(buyStockCount);
 				
-				switch (period) {
-				case WEEK:
-					cr.setCmpName(cmpName);
-					cr.setRankCountWeek(rankCount);
-					break;
-				case MONTH:
-					cr.setCmpName(cmpName);
-					cr.setRankCountMonth(rankCount);
-					break;
-				default:
-					cr.setCmpName(cmpName);
-					cr.setRankCountDay(rankCount);
-					break;
-				}
 				rs.add(cr);
 			}
-			logger.info(Thread.currentThread().getId() + ", startPageNumber = " + pageNumber);
-			pageNumber++;
+			logger.info(Thread.currentThread().getId() + ", startPageNumber = " + startPageNumber);
+			startPageNumber++;
+		}
+		data.setData(rs);
+		return data;
+	}
+	
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
+	public void setPeriodStr(String period) {
+		setPeriod(Period.get(period));
+	}
+
+	private BigDecimal convertUnit(String text){
+		BigDecimal rs = new BigDecimal(text.replaceAll("万|亿", ""));
+		if(text.contains("亿")){
+			rs = new BigDecimal(rs.intValue() * 10000);
 		}
 		return rs;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	private String getType(){
+		switch (period) {
+		case DAY:
+			return "1";
+		case WEEK:
+			return "2";
+		case MONTH:
+			return "3";
+		default:
+			return "1";
+		}
 	}
 }

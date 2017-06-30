@@ -71,6 +71,7 @@
 	<!-- 爬取营业部排名数据 -->
 	<bean id="companyRankCrawler" class="org.charles.app.crawler.impl.CompanyRankCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/ifmarket/lhbyyb/type/%s/tab/sbcs/field/sbcs/sort/desc/page/%s/"></property>
+		<property name="periodStr" value="month"></property>
 	</bean>
 	<!-- 爬取大单追踪数据 -->
 	<bean id="bigTradeCrawler" class="org.charles.app.crawler.impl.BigTradeCrawler">
@@ -88,6 +89,6 @@
 	<!-- 爬取概念资金流向数据 -->
 	<bean id="newTopCrawler" class="org.charles.app.crawler.impl.NewTopCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/rank/cxg/board/%s/field/stockcode/order/asc/page/%s/ajax/1/"></property>
-		<property name="periodStr" value="his"></property>
+		<property name="periodStr" value="day"></property>
 	</bean>
 </beans>
