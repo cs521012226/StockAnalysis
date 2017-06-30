@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop
+     	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+     	
+     	
+     	
+<!-- 定时任务调度 *******************************************************-->	
+
+	<!-- 龙虎榜数据获取任务 -->
+	<bean id="boardDataExtractTask" class="org.charles.app.timer.task.BoardDataExtractTask">
+		<property name="boardDataCrawler" ref="boardDataCrawler"></property>
+	</bean>
+	<!-- 营业部排名获取任务 -->
+	<bean id="companyRankExtractTask" class="org.charles.app.timer.task.CompanyRankExtractTask">
+		<property name="companyRankCrawler" ref="companyRankCrawler"></property>
+	</bean>
+
+     <!-- 定时任务 -->
+	<bean id="dataExtractTimer" class="org.charles.app.timer.DataExtractTimer">
+		<property name="boardDataExtractTask" ref="boardDataExtractTask"></property>
+		<property name="companyRankExtractTask" ref="companyRankExtractTask"></property>
+	</bean>
+	
+	
+<!-- 公共服务******************************************************* -->	
+	<!-- 系统参数工具 -->
+	<bean id="SysParamUtil" class="org.charles.app.util.SysParamUtil">
+		<property name="sysParamQueryList">
+			<list>
+				<ref bean="sysParamService" />
+			</list>
+		</property>
+	</bean>
+
+	
+<!-- 普通服务*******************************************************-->	
+	
+	<!-- 龙虎榜数据服务 -->
+	<!-- <bean id="boardDataService" class="org.charles.app.service.impl.BoardDataServiceImpl">
+		<property name="companyDao" ref="companyDao"></property>
+		<property name="stockDao" ref="stockDao"></property>
+		<property name="boardDataDao" ref="boardDataDao"></property>
+	</bean> -->
+	
+	<!-- 系统参数 -->
+	<bean id="sysParamService" class="org.charles.app.service.impl.SysParamServiceImpl">
+		<property name="sysParamDao" ref="sysParamDao"></property>
+	</bean>
+	
+	
+<!-- 爬虫服务 *******************************************************-->	
+	<!-- 爬取龙虎榜数据 -->
+	<bean id="boardDataCrawler" class="org.charles.app.crawler.impl.BoardDataCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/market/longhu/"></property>
+		<property name="companyDao" ref="companyDao"></property>
+		<property name="stockDao" ref="stockDao"></property>
+		<property name="boardDataDao" ref="boardDataDao"></property>
+	</bean>
+	<!-- 爬取营业部排名数据 -->
+	<bean id="companyRankCrawler" class="org.charles.app.crawler.impl.CompanyRankCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/ifmarket/lhbyyb/type/%s/tab/sbcs/field/sbcs/sort/desc/page/%s/"></property>
+	</bean>
+	<!-- 爬取大单追踪数据 -->
+	<bean id="bigTradeCrawler" class="org.charles.app.crawler.impl.BigTradeCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/funds/ddzz/order/asc/page/%s/ajax/1/"></property>
+	</bean>
+	<!-- 爬取个股资金流向数据 -->
+	<bean id="individualStockFundCrawler" class="org.charles.app.crawler.impl.IndividualStockFundCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/%s/ajax/1/"></property>
+	</bean>
+</beans>
