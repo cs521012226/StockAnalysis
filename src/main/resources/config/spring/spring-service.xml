@@ -80,4 +80,9 @@
 	<bean id="individualStockFundCrawler" class="org.charles.app.crawler.impl.IndividualStockFundCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/%s/ajax/1/"></property>
 	</bean>
+	<!-- 爬取概念资金流向数据 -->
+	<bean id="conceptFundRankCrawler" class="org.charles.app.crawler.impl.ConceptFundRankCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/funds/gnzjl/board/%s/field/tradezdf/order/desc/page/%s/ajax/1/"></property>
+		<property name="periodStr" value="DAY_10"></property>
+	</bean>
 </beans>

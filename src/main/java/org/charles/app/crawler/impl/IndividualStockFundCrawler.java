@@ -13,7 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * 爬取个股资金流向数据
+ * 爬取个股资金流向数据（即时）
  * @author YeChao
  * 2017年6月28日
  */
