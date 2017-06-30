@@ -71,7 +71,8 @@
 	<!-- 爬取营业部排名数据 -->
 	<bean id="companyRankCrawler" class="org.charles.app.crawler.impl.CompanyRankCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/ifmarket/lhbyyb/type/%s/tab/sbcs/field/sbcs/sort/desc/page/%s/"></property>
-		<property name="periodStr" value="month"></property>
+		<property name="companyRankDao" ref="companyRankDao"></property>
+		<property name="companyDao" ref="companyDao"></property>
 	</bean>
 	<!-- 爬取大单追踪数据 -->
 	<bean id="bigTradeCrawler" class="org.charles.app.crawler.impl.BigTradeCrawler">

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.charles.app.dao.CompanyDao;
+import org.charles.app.dao.CompanyRankDao;
 import org.charles.app.enums.Period;
 import org.charles.app.pojo.dto.CompanyRank;
 import org.charles.app.util.HtmlUtil;
@@ -21,13 +23,28 @@ import org.jsoup.select.Elements;
 public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 	private static Logger logger = Logger.getLogger(CompanyRankCrawler.class);
 	
-	private Period period = Period.DAY;
+	private CompanyRankDao companyRankDao;
+	private CompanyDao companyDao;
+	private Period period;
 
 	@Override
 	public void craw() {
 		try {
+			companyRankDao.delete();
+			
+			period = Period.DAY;
 			List<CompanyRank> rs = getData();
-			System.out.println(rs);
+			companyRankDao.saveBatch(rs);
+			
+			period = Period.WEEK;
+			rs = getData();
+			companyRankDao.saveBatch(rs);
+			
+			period = Period.MONTH;
+			rs = getData();
+			companyRankDao.saveBatch(rs);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,6 +85,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 				cr.setAmount(amount);
 				cr.setRankCountYear(rankCountYear);
 				cr.setBuyStockCount(buyStockCount);
+				cr.setPeriod(period);
 				
 				rs.add(cr);
 			}
@@ -77,22 +95,12 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 		data.setData(rs);
 		return data;
 	}
-	
-	public Period getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(Period period) {
-		this.period = period;
-	}
-	public void setPeriodStr(String period) {
-		setPeriod(Period.get(period));
-	}
 
 	private BigDecimal convertUnit(String text){
 		BigDecimal rs = new BigDecimal(text.replaceAll("万|亿", ""));
 		if(text.contains("亿")){
-			rs = new BigDecimal(rs.intValue() * 10000);
+//			rs = rs.multiply(new BigDecimal(10000));
+			rs = new BigDecimal(rs.doubleValue() * 10000);
 		}
 		return rs;
 	}
@@ -109,4 +117,21 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 			return "1";
 		}
 	}
+
+	public CompanyRankDao getCompanyRankDao() {
+		return companyRankDao;
+	}
+
+	public void setCompanyRankDao(CompanyRankDao companyRankDao) {
+		this.companyRankDao = companyRankDao;
+	}
+
+	public CompanyDao getCompanyDao() {
+		return companyDao;
+	}
+
+	public void setCompanyDao(CompanyDao companyDao) {
+		this.companyDao = companyDao;
+	}
+	
 }

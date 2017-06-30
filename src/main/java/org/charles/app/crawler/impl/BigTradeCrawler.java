@@ -2,11 +2,13 @@ package org.charles.app.crawler.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.charles.app.pojo.dto.BigTrade;
 import org.charles.app.util.HtmlUtil;
+import org.charles.framework.util.DateUtil;
 import org.charles.framework.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -51,7 +53,7 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 			for(Element r : row){
 				int colIndex = 0;
 				
-				String tradeDate = r.child(colIndex++).text();	//成交时间
+				Date tradeDate = DateUtil.convertStringToDate(r.child(colIndex++).text(), DateUtil.Pattern.DATE_TIME.getPattern());	//成交时间
 				String stockCode = r.child(colIndex++).child(0).text();	//股票代码
 				String stockName = r.child(colIndex++).child(0).text(); 	//股票简称
 				BigDecimal price = new BigDecimal(r.child(colIndex++).text());	//成交价格
@@ -59,7 +61,7 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 				BigDecimal amount = new BigDecimal(r.child(colIndex++).text());	//成交额(万元)
 				String type = r.child(colIndex++).text();		//大单性质
 				String updownPercent = r.child(colIndex++).text();		//涨跌幅
-				String updownPrice = r.child(colIndex++).text();		//涨跌额
+				BigDecimal updownPrice = new BigDecimal(r.child(colIndex++).text());		//涨跌额
 				
 				BigTrade cr = new BigTrade();
 				cr.setTradeDate(tradeDate);

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 大单追踪
+ * 个股资金流向
  * @author YeChao
  * 2017年6月28日
  */

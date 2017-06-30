@@ -13,7 +13,7 @@ public class ConceptFundRank {
 
 	private String industry;		//行业	
 	private Integer companyCount;		//公司家数	
-	private String industryIndex;		//行业指数	
+	private BigDecimal industryIndex;		//行业指数	
 	private String updownPercent;		//阶段涨跌幅	
 	private BigDecimal inFund;		//流入资金(亿)
 	private BigDecimal outFund;		//流出资金(亿)	
@@ -36,12 +36,15 @@ public class ConceptFundRank {
 	public void setCompanyCount(Integer companyCount) {
 		this.companyCount = companyCount;
 	}
-	public String getIndustryIndex() {
+	
+	public BigDecimal getIndustryIndex() {
 		return industryIndex;
 	}
-	public void setIndustryIndex(String industryIndex) {
+
+	public void setIndustryIndex(BigDecimal industryIndex) {
 		this.industryIndex = industryIndex;
 	}
+
 	public String getUpdownPercent() {
 		return updownPercent;
 	}

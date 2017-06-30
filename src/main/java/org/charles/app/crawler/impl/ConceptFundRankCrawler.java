@@ -58,7 +58,7 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 				int colIndex = 1;
 				String industry = r.child(colIndex++).child(0).text();		//行业	
 				Integer companyCount = Integer.valueOf(r.child(colIndex++).text());		//公司家数	
-				String industryIndex = r.child(colIndex++).text();		//行业指数	
+				BigDecimal industryIndex = new BigDecimal(r.child(colIndex++).text());		//行业指数	
 				String updownPercent = r.child(colIndex++).text();		//阶段涨跌幅	
 				BigDecimal inFund = new BigDecimal(r.child(colIndex++).text());		//流入资金(亿)
 				BigDecimal outFund = new BigDecimal(r.child(colIndex++).text());		//流出资金(亿)	

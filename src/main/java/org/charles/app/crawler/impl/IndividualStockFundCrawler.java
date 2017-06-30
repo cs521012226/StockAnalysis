@@ -86,7 +86,7 @@ public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockF
 	private BigDecimal convertUnit(String text){
 		BigDecimal rs = new BigDecimal(text.replaceAll("万|亿", ""));
 		if(text.contains("亿")){
-			rs = new BigDecimal(rs.intValue() * 10000);
+			rs = new BigDecimal(rs.doubleValue() * 10000);
 		}
 		return rs;
 	}

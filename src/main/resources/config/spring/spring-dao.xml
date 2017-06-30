@@ -14,12 +14,6 @@
 		http://www.springframework.org/schema/aop
      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
      	
-
-
-	<!-- 龙虎榜数据获取、解析器 -->
-	<!-- <bean id="boardDataParser" class="org.charles.app.board.parser.impl.UrlBoardDataParser">
-		<constructor-arg index="0" value="http://data.10jqka.com.cn/market/longhu/" />
-	</bean> -->
 	
 	<!-- 公共DAO类 -->
 	<bean id="commonDao" class="org.charles.app.dao.impl.CommonDaoImpl">
@@ -34,6 +28,10 @@
 	
 	<!--营业部、机构 -->
 	<bean id="companyDao" class="org.charles.app.dao.impl.CompanyDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--营业部排名 -->
+	<bean id="companyRankDao" class="org.charles.app.dao.impl.CompanyRankDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	

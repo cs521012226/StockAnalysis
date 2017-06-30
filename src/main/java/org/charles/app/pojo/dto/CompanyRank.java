@@ -2,6 +2,8 @@ package org.charles.app.pojo.dto;
 
 import java.math.BigDecimal;
 
+import org.charles.app.enums.Period;
+
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -16,6 +18,7 @@ public class CompanyRank {
 	private BigDecimal amount;		//合计动用资金（万）
 	private Integer rankCountYear;	//年内上榜次数
 	private Integer buyStockCount;		//年内买入股票只数
+	private Period period;	//日期类型
 	
 	@Override
 	public String toString() {
@@ -60,6 +63,14 @@ public class CompanyRank {
 
 	public void setBuyStockCount(Integer buyStockCount) {
 		this.buyStockCount = buyStockCount;
+	}
+
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 	
 }

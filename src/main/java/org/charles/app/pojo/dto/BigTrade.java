@@ -1,6 +1,7 @@
 package org.charles.app.pojo.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -11,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class BigTrade {
 
-	private String tradeDate;	//成交时间
+	private Date tradeDate;	//成交时间
 	private String stockCode;	//股票代码
 	private String stockName; 	//股票简称
 	private BigDecimal price;	//成交价格
@@ -19,7 +20,7 @@ public class BigTrade {
 	private BigDecimal amount;	//成交额(万元)
 	private String type;		//大单性质
 	private String updownPercent;		//涨跌幅
-	private String updownPrice;		//涨跌额
+	private BigDecimal updownPrice;		//涨跌额
 	
 	
 	@Override
@@ -28,14 +29,6 @@ public class BigTrade {
 	}
 
 
-	public String getTradeDate() {
-		return tradeDate;
-	}
-
-
-	public void setTradeDate(String tradeDate) {
-		this.tradeDate = tradeDate;
-	}
 
 
 	public String getStockCode() {
@@ -106,14 +99,20 @@ public class BigTrade {
 	public void setUpdownPercent(String updownPercent) {
 		this.updownPercent = updownPercent;
 	}
+	public Date getTradeDate() {
+		return tradeDate;
+	}
 
+	public void setTradeDate(Date tradeDate) {
+		this.tradeDate = tradeDate;
+	}
 
-	public String getUpdownPrice() {
+	public BigDecimal getUpdownPrice() {
 		return updownPrice;
 	}
 
-
-	public void setUpdownPrice(String updownPrice) {
+	public void setUpdownPrice(BigDecimal updownPrice) {
 		this.updownPrice = updownPrice;
 	}
+
 }
