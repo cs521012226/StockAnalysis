@@ -3,13 +3,8 @@ package org.charles.app.crawler.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
-import org.charles.app.crawler.UrlCrawler;
 import org.charles.app.pojo.dto.BigTrade;
 import org.charles.app.util.HtmlUtil;
 import org.charles.framework.util.StringUtil;
@@ -22,9 +17,9 @@ import org.jsoup.select.Elements;
  * @author YeChao
  * 2017年6月28日
  */
-public class BigTradeCrawler implements UrlCrawler {
+public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 	private static Logger logger = Logger.getLogger(BigTradeCrawler.class);
-	private String url = "http://data.10jqka.com.cn/funds/ddzz/order/asc/page/%s/ajax/1/";
+//	private String url = "http://data.10jqka.com.cn/funds/ddzz/order/asc/page/%s/ajax/1/";
 
 	@Override
 	public void craw() {
@@ -36,43 +31,13 @@ public class BigTradeCrawler implements UrlCrawler {
 		}
 	}
 	
-	public List<BigTrade> getData() throws Exception{
-		
-		int pageNumber = 1;
-		int pageSize = 10;
-		int endPage = 1;
-		
-		Unit firstUnit = parser(pageNumber, endPage);
-		int totolPage = firstUnit.getTotolPage();
-		pageNumber = endPage + 1;
-		
-		List<Future<Unit>> futureList = new ArrayList<Future<Unit>>();
-		ExecutorService es = Executors.newFixedThreadPool(totolPage/pageSize > 0 ? totolPage/pageSize : 1);
-		while(true){
-			endPage = pageNumber + pageSize;
-			if(endPage >= totolPage){
-				futureList.add(es.submit(new Runner(pageNumber, totolPage)));
-				break;
-			}
-			futureList.add(es.submit(new Runner(pageNumber, endPage)));
-			pageNumber = endPage + 1;
-		}
-		es.shutdown();
-		
-		List<BigTrade> dataSource = firstUnit.getData();
-		for(Future<Unit> fu : futureList){
-			dataSource.addAll(fu.get().getData());
-		}
-		return dataSource;
-	}
-	
-	public Unit parser(int startPageNumber, int endPageNumber){
+	public Unit<BigTrade> parser(int startPageNumber, int endPageNumber){
 		
 		List<BigTrade> rs = new ArrayList<BigTrade>();
-		Unit data = new Unit();
+		Unit<BigTrade> data = new Unit<BigTrade>();
 		
 		while(startPageNumber <= endPageNumber){
-			String url = String.format(this.url, startPageNumber);
+			String url = String.format(getUrl(), startPageNumber);
 			
 			Document doc = HtmlUtil.getDoc(url);
 			
@@ -115,46 +80,5 @@ public class BigTradeCrawler implements UrlCrawler {
 		}
 		data.setData(rs);
 		return data;
-	}
-	
-	private class Runner implements Callable<Unit>{
-		
-		private int startPageNumber;
-		private int endPageNumber;
-		public Runner(int startPageNumber, int endPageNumber){
-			this.startPageNumber = startPageNumber;
-			this.endPageNumber = endPageNumber;
-		}
-
-		@Override
-		public Unit call() throws Exception {
-			return BigTradeCrawler.this.parser(startPageNumber, endPageNumber);
-		}
-	}
-	
-	private class Unit{
-		private List<BigTrade> data;
-		private int totolPage;
-		public List<BigTrade> getData() {
-			return data;
-		}
-		public void setData(List<BigTrade> data) {
-			this.data = data;
-		}
-		public int getTotolPage() {
-			return totolPage;
-		}
-		public void setTotolPage(int totolPage) {
-			this.totolPage = totolPage;
-		}
-	}
-	
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 }
