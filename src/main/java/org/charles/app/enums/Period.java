@@ -11,11 +11,14 @@ public enum Period {
 	MONTH,
 	QUARTER,
 	YEAR,
+	HALF_YEAR,
+	HIS,		//历史
 	
 	DAY_3,
 	DAY_5,
 	DAY_10,
 	DAY_20;
+	
 	
 	public static Period get(String type){
 		for(Period p : Period.values()){

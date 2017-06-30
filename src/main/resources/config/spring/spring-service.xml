@@ -85,4 +85,9 @@
 		<property name="url" value="http://data.10jqka.com.cn/funds/gnzjl/board/%s/field/tradezdf/order/desc/page/%s/ajax/1/"></property>
 		<property name="periodStr" value="DAY_10"></property>
 	</bean>
+	<!-- 爬取概念资金流向数据 -->
+	<bean id="newTopCrawler" class="org.charles.app.crawler.impl.NewTopCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/rank/cxg/board/%s/field/stockcode/order/asc/page/%s/ajax/1/"></property>
+		<property name="periodStr" value="his"></property>
+	</bean>
 </beans>

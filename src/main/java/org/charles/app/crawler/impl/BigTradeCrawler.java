@@ -19,7 +19,6 @@ import org.jsoup.select.Elements;
  */
 public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 	private static Logger logger = Logger.getLogger(BigTradeCrawler.class);
-//	private String url = "http://data.10jqka.com.cn/funds/ddzz/order/asc/page/%s/ajax/1/";
 
 	@Override
 	public void craw() {

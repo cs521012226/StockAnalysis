@@ -19,7 +19,6 @@ import org.jsoup.select.Elements;
  */
 public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockFund> {
 	private static Logger logger = Logger.getLogger(IndividualStockFundCrawler.class);
-//	private String url = "http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/%s/ajax/1/";
 
 	@Override
 	public void craw() {
