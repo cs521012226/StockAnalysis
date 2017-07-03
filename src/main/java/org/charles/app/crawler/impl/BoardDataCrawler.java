@@ -40,6 +40,9 @@ public class BoardDataCrawler implements UrlCrawler {
 	
 	@Override
 	public void craw() {
+		//删除三个月前的数据
+		boardDataDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 3), true);
+		
 		List<BoardData> data = parser();
 		saveData(data);
 	}
@@ -165,9 +168,6 @@ public class BoardDataCrawler implements UrlCrawler {
 	 * @param data
 	 */
 	public void saveData(List<BoardData> data){
-		if(boardDataDao.isExistData(data.get(0).getBoardDate())){
-			return ;
-		}
 		
 		List<Company> compList = companyDao.findAll(null);
 		Map<String, Company> compCache = new HashMap<String, Company>();

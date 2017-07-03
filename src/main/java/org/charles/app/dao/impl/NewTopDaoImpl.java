@@ -17,8 +17,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class NewTopDaoImpl extends NamedParameterJdbcDaoSupport implements NewTopDao{
 	
 	@Override
-	public void delete() throws BusinessException {
-		getJdbcTemplate().update("delete from new_top");
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from new_top where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from new_top where create_date = ?", new Object[]{ new Date() });
+		}
 	}
 	
 	@Override

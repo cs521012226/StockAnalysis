@@ -18,8 +18,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class ConceptFundRankDaoImpl extends NamedParameterJdbcDaoSupport implements ConceptFundRankDao{
 	
 	@Override
-	public void delete() throws BusinessException {
-		getJdbcTemplate().update("delete from concept_fund_rank");
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from concept_fund_rank where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from concept_fund_rank where create_date = ?", new Object[]{ new Date() });
+		}
 	}
 
 	@Override

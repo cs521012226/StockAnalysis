@@ -1,5 +1,6 @@
 package org.charles.app.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.charles.app.pojo.dto.ConceptFundRank;
@@ -13,7 +14,7 @@ import org.charles.framework.exp.BusinessException;
  */
 public interface ConceptFundRankDao {
 	
-	public void delete() throws BusinessException;
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException;
 	
 	public void save(ConceptFundRank p) throws BusinessException ;
 	

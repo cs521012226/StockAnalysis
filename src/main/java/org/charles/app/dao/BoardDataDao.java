@@ -13,6 +13,16 @@ import org.charles.framework.exp.BusinessException;
  */
 public interface BoardDataDao {
 	
+	/**
+	 * 删除date日期前的数据
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param date
+	 * @param andNow	是否删除今天的数据
+	 * @throws BusinessException
+	 */
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException;
+	
 	/** 
 	 * 查询
 	 * @Author: Charles

@@ -205,6 +205,35 @@ public class DateUtil {
 	}
 	
 	/**
+	 * 日期加减
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param date
+	 * @param num
+	 * @return
+	 */
+	public static Date addDay(Date date, int num){
+		Calendar cl = createCld();
+		cl.setTime(date);
+		cl.add(Calendar.DATE, num);
+		return cl.getTime();
+	}
+	/**
+	 * 月份加减
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param date
+	 * @param num
+	 * @return
+	 */
+	public static Date addMonth(Date date, int num){
+		Calendar cl = createCld();
+		cl.setTime(date);
+		cl.add(Calendar.MONTH, num);
+		return cl.getTime();
+	}
+	
+	/**
 	 * 获取该日期这个月的最后一天（等同与这个月有多少天）
 	 * <p> 例1: "2014-02-21"  返回: 28或29（看年份）
 	 * <p> 例2: "2014-08-17"  返回: 31
@@ -408,6 +437,19 @@ public class DateUtil {
 	public static String getAddDayDate(String inputDate, int addDays) {
 		Calendar cl = createCld();
 		cl.setTime(convertStringToDate(inputDate));
+		cl.add(Calendar.DATE, addDays);
+		return convertDateToString(cl.getTime());
+	}
+	/**
+	 * 获取日期加上x天数之后的日期
+	 * @author	YeChao
+	 * @param date	日期
+	 * @param addDays	天数
+	 * @return	输出格式为 yyyy-MM-dd
+	 */
+	public static String getAddDayDate(Date date, int addDays) {
+		Calendar cl = createCld();
+		cl.setTime(date);
 		cl.add(Calendar.DATE, addDays);
 		return convertDateToString(cl.getTime());
 	}

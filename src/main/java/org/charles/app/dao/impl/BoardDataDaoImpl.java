@@ -22,6 +22,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
  */
 public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements BoardDataDao{
 	
+	
+
+	@Override
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from board_data where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from board_data where create_date = ?", new Object[]{ new Date() });
+		}
+	}
+
 
 	@Override
 	public List<BoardData> queryListByDate(String date) throws BusinessException {

@@ -2,6 +2,7 @@ package org.charles.app.crawler.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,6 +11,7 @@ import org.charles.app.dao.CompanyRankDao;
 import org.charles.app.enums.Period;
 import org.charles.app.pojo.dto.CompanyRank;
 import org.charles.app.util.HtmlUtil;
+import org.charles.framework.util.DateUtil;
 import org.charles.framework.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,7 +31,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 
 	@Override
 	public void craw() {
-		companyRankDao.delete();
+		companyRankDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 1), true);
 		
 		period = Period.DAY;
 		List<CompanyRank> rs = getData();

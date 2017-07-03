@@ -19,8 +19,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class CompanyRankDaoImpl extends NamedParameterJdbcDaoSupport implements CompanyRankDao{
 	
 	@Override
-	public void delete() throws BusinessException {
-		getJdbcTemplate().update("delete from company_rank");
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from company_rank where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from company_rank where create_date = ?", new Object[]{ new Date() });
+		}
 	}
 
 	@Override

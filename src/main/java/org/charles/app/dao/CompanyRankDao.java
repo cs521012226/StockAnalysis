@@ -1,5 +1,6 @@
 package org.charles.app.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.charles.app.pojo.dto.CompanyRank;
@@ -13,7 +14,7 @@ import org.charles.framework.exp.BusinessException;
  */
 public interface CompanyRankDao {
 	
-	public void delete() throws BusinessException;
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException;
 	
 	public void save(CompanyRank p) throws BusinessException ;
 	

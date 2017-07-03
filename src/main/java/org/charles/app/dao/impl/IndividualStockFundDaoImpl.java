@@ -18,8 +18,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class IndividualStockFundDaoImpl extends NamedParameterJdbcDaoSupport implements IndividualStockFundDao{
 	
 	@Override
-	public void delete() throws BusinessException {
-		getJdbcTemplate().update("delete from ind_stock_fund");
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from ind_stock_fund where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from ind_stock_fund where create_date = ?", new Object[]{ new Date() });
+		}
 	}
 
 	@Override

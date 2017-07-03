@@ -29,7 +29,7 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 
 	@Override
 	public void craw() {
-		newTopDao.delete();
+		newTopDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 3), true);
 		
 		period = Period.MONTH;
 		List<NewTop> rs = getData();

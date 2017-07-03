@@ -27,7 +27,8 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 
 	@Override
 	public void craw() {
-		bigTradeDao.delete();
+		//删除3天前以及今天的数据
+		bigTradeDao.deleteBeforeDate(DateUtil.addDay(new Date(), 3), true);
 		
 		List<BigTrade> rs = getData();
 		bigTradeDao.saveBatch(rs);

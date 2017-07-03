@@ -1,6 +1,7 @@
 package org.charles.app.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.charles.app.dao.BigTradeDao;
@@ -17,8 +18,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class BigTradeDaoImpl extends NamedParameterJdbcDaoSupport implements BigTradeDao{
 	
 	@Override
-	public void delete() throws BusinessException {
-		getJdbcTemplate().update("delete from big_trade");
+	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
+		getJdbcTemplate().update("delete from big_trade where create_date >= ?", new Object[]{ date });
+		if(andNow){
+			getJdbcTemplate().update("delete from big_trade where create_date = ?", new Object[]{ new Date() });
+		}
 	}
 
 	@Override
@@ -34,13 +38,14 @@ public class BigTradeDaoImpl extends NamedParameterJdbcDaoSupport implements Big
 		u.value("type", p.getType()); //大单性质
 		u.value("updown_percent", p.getUpdownPercent()); //涨跌幅
 		u.value("updown_price", p.getUpdownPrice()); //涨跌额
+		u.value("create_date", new Date()); //涨跌额
 
 		getNamedParameterJdbcTemplate().update(u.getSql(), u.getParams());
 	}
 	@Override
 	public void saveBatch(List<BigTrade> pl) throws BusinessException {
-		String sql = "insert into big_trade(trade_date, stock_code, stock_name, price, volume, amount, type, updown_percent, updown_price)"
-				+ " values(?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into big_trade(trade_date, stock_code, stock_name, price, volume, amount, type, updown_percent, updown_price, create_date)"
+				+ " values(?,?,?,?,?,?,?,?,?,?)";
 		List<Object[]> params = new ArrayList<Object[]>(pl.size());
 		
 		for(int i=0; i<pl.size(); i++){
@@ -54,7 +59,9 @@ public class BigTradeDaoImpl extends NamedParameterJdbcDaoSupport implements Big
 				p.getAmount(),
 				p.getType(),
 				p.getUpdownPercent(),
-				p.getUpdownPrice()});
+				p.getUpdownPrice(),
+				new Date()
+			});
 		}
 		getJdbcTemplate().batchUpdate(sql, params);
 	}
