@@ -1,4 +1,4 @@
-package org.charles.app.board.analysis;
+package org.charles.app.analysis;
 
 import org.charles.app.msg.TextTemplate;
 

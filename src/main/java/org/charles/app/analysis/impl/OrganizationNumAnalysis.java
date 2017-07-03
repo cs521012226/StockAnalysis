@@ -1,4 +1,4 @@
-package org.charles.app.board.analysis.impl;
+package org.charles.app.analysis.impl;
 
 import java.util.List;
 

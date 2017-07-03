@@ -1,8 +1,8 @@
-package org.charles.app.board.analysis.impl;
+package org.charles.app.analysis.impl;
 
 import java.util.List;
 
-import org.charles.app.board.analysis.StockAnalysis;
+import org.charles.app.analysis.StockAnalysis;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.pojo.BoardData;
 

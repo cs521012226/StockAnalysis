@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.charles.app.dao.IndividualStockFundDao;
 import org.charles.app.pojo.dto.IndividualStockFund;
 import org.charles.app.util.HtmlUtil;
-import org.charles.framework.exp.BusinessException;
 import org.charles.framework.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -30,7 +29,6 @@ public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockF
 		
 		List<IndividualStockFund> rs = getData();
 		individualStockFundDao.saveBatch(rs);
-		throw BusinessException.define("测试");
 	}
 	
 	@Override

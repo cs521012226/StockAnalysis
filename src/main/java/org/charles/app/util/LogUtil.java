@@ -1,9 +1,14 @@
 package org.charles.app.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+
 import org.apache.log4j.Logger;
 import org.charles.app.dao.OprLogsDao;
 import org.charles.app.enums.LogType;
 import org.charles.app.pojo.OprLogs;
+import org.charles.framework.define.Constants;
 import org.charles.framework.exp.BusinessException;
 import org.charles.framework.util.StringUtil;
 
@@ -45,7 +50,7 @@ public class LogUtil {
 		logger.error(e.getMessage(), e);
 		
 		String code = null;
-		String text = null;
+		String text = "";
 		if(e instanceof BusinessException){
 			BusinessException be = (BusinessException) e;
 			code = be.getCode();
@@ -54,11 +59,14 @@ public class LogUtil {
 		if(StringUtil.isBlank(code)){
 			code = LogType.EXCEPTION.toString();
 		}
-		StringBuilder sb = new StringBuilder();
-		for(StackTraceElement ste : e.getStackTrace()){
-			sb.append(ste.toString()).append("\n");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		e.printStackTrace(new PrintStream(baos, true));
+		
+		try {
+			text = baos.toString(Constants.ENCODING);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
-		text = sb.toString();
 		single.oprLogsDao.save(new OprLogs(LogType.EXCEPTION.toString(), code, text));
 	}
 	

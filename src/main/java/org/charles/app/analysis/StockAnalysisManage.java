@@ -1,4 +1,4 @@
-package org.charles.app.board.analysis;
+package org.charles.app.analysis;
 
 /**
  * 股票分析管理器
@@ -9,8 +9,8 @@ public interface StockAnalysisManage {
 
 	
 	/** 
-	 * 执行管理
+	 * 执行分析处理
 	 * @Author: Charles
 	 */
-	public void manage();
+	public void process();
 }

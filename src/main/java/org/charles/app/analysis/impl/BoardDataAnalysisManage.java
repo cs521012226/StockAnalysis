@@ -1,11 +1,11 @@
-package org.charles.app.board.analysis.impl;
+package org.charles.app.analysis.impl;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.charles.app.board.analysis.StockAnalysis;
-import org.charles.app.board.analysis.StockAnalysisManage;
+import org.charles.app.analysis.StockAnalysis;
+import org.charles.app.analysis.StockAnalysisManage;
 import org.charles.app.msg.DataOutput;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.msg.impl.FileDataOutput;
@@ -13,7 +13,7 @@ import org.charles.app.msg.impl.MessageTextTemplate;
 import org.charles.framework.util.DateUtil;
 
 /**
- * 龙虎榜分析管理
+ * 股票分析管理
  * @author Charles
  *
  */
@@ -22,7 +22,7 @@ public class BoardDataAnalysisManage implements StockAnalysisManage {
 	private List<StockAnalysis> boardDataAnalysisList;
 	
 	@Override
-	public void manage() {
+	public void process() {
 		String date = getDate();
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
@@ -38,8 +38,8 @@ public class BoardDataAnalysisManage implements StockAnalysisManage {
 	public String getDate(){
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.set(Calendar.MONTH, 3);
-		c.set(Calendar.DAY_OF_MONTH, 28);
+		c.set(Calendar.MONTH, 2);
+		c.set(Calendar.DAY_OF_MONTH, 3);
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);

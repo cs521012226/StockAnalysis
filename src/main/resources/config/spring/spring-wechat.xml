@@ -15,12 +15,12 @@
      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<!-- 机构数目分析 -->
-	<bean id="organizationNumAnalysis" class="org.charles.app.board.analysis.impl.OrganizationNumAnalysis">
+	<bean id="organizationNumAnalysis" class="org.charles.app.analysis.impl.OrganizationNumAnalysis">
 		<property name="boardDataDao" ref="boardDataDao"></property>
 	</bean>
 	
 	<!-- 龙虎榜分析管理 -->
-	<bean id="boardDataAnalysisManage" class="org.charles.app.board.analysis.impl.BoardDataAnalysisManage">
+	<bean id="boardDataAnalysisManage" class="org.charles.app.analysis.impl.BoardDataAnalysisManage">
 		<property name="boardDataAnalysisList">
       		<list>
       			<ref bean="organizationNumAnalysis" />
