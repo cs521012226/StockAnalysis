@@ -67,7 +67,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 			for(Element r : row){
 				int colIndex = 1;
 				
-				String cmpName = r.child(colIndex++).child(0).attr("title");		//营业部名称
+				String cmpName = StringUtil.trim(r.child(colIndex++).child(0).attr("title"));		//营业部名称
 				Integer rankCount = Integer.valueOf(r.child(colIndex++).text());	//上榜次数
 				BigDecimal amount = convertUnit(r.child(colIndex++).text());		//合计动用资金
 				Integer rankCountYear = Integer.valueOf(r.child(colIndex++).text());	//年内上榜次数

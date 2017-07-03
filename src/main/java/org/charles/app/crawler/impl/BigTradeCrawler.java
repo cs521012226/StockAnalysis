@@ -56,13 +56,13 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 				int colIndex = 0;
 				
 				Date tradeDate = DateUtil.convertStringToDate(r.child(colIndex++).text(), DateUtil.Pattern.DATE_TIME.getPattern());	//成交时间
-				String stockCode = r.child(colIndex++).child(0).text();	//股票代码
-				String stockName = r.child(colIndex++).child(0).text(); 	//股票简称
+				String stockCode = StringUtil.trim(r.child(colIndex++).child(0).text());	//股票代码
+				String stockName = StringUtil.trim(r.child(colIndex++).child(0).text()); 	//股票简称
 				BigDecimal price = new BigDecimal(r.child(colIndex++).text());	//成交价格
 				Integer volume = Integer.valueOf(r.child(colIndex++).text());	//成交量(股)
 				BigDecimal amount = new BigDecimal(r.child(colIndex++).text());	//成交额(万元)
-				String type = r.child(colIndex++).text();		//大单性质
-				String updownPercent = r.child(colIndex++).text();		//涨跌幅
+				String type = StringUtil.trim(r.child(colIndex++).text());		//大单性质
+				String updownPercent = StringUtil.trim(r.child(colIndex++).text());		//涨跌幅
 				BigDecimal updownPrice = new BigDecimal(r.child(colIndex++).text());		//涨跌额
 				
 				BigTrade cr = new BigTrade();

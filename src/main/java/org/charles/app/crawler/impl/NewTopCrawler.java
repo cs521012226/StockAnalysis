@@ -71,10 +71,10 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 			
 			for(Element r : row){
 				int colIndex = 1;
-				String stockCode = r.child(colIndex++).child(0).text();	//股票代码	
-				String stockName = r.child(colIndex++).child(0).text();	//股票简称	
-				String updownPercent = r.child(colIndex++).text();		//涨跌幅	
-				String turnoverRate = r.child(colIndex++).text();		//换手率	
+				String stockCode = StringUtil.trim(r.child(colIndex++).child(0).text());	//股票代码	
+				String stockName = StringUtil.trim(r.child(colIndex++).child(0).text());	//股票简称	
+				String updownPercent = StringUtil.trim(r.child(colIndex++).text());		//涨跌幅	
+				String turnoverRate = StringUtil.trim(r.child(colIndex++).text());		//换手率	
 				BigDecimal newPrice = new BigDecimal(r.child(colIndex++).text());		//最新价(元)	
 				BigDecimal prevTop = new BigDecimal(r.child(colIndex++).text());		//前期高点	
 				Date prevTopDate = DateUtil.convertStringToDate(r.child(colIndex++).text());		//前期高点日期

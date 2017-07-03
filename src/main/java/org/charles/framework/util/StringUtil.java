@@ -79,6 +79,9 @@ public class StringUtil {
 		if(o == null){
 			return "";
 		}
+		if(o instanceof String){
+			return ((String) o).trim();
+		}
 		return o.toString().trim();
 	}
 	

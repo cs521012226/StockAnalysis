@@ -52,11 +52,11 @@ public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockF
 			
 			for(Element r : row){
 				int colIndex = 1;
-				String stockCode = r.child(colIndex++).child(0).text();	//股票代码	
-				String stockName = r.child(colIndex++).child(0).text(); 	//股票简称	
+				String stockCode = StringUtil.trim(r.child(colIndex++).child(0).text());	//股票代码	
+				String stockName = StringUtil.trim(r.child(colIndex++).child(0).text()); 	//股票简称	
 				BigDecimal newPrice = new BigDecimal(r.child(colIndex++).text());	//最新价	
-				String updownPercent = r.child(colIndex++).text();		//涨跌幅
-				String turnoverRate = r.child(colIndex++).text();		//换手率	
+				String updownPercent = StringUtil.trim(r.child(colIndex++).text());		//涨跌幅
+				String turnoverRate = StringUtil.trim(r.child(colIndex++).text());		//换手率	
 				BigDecimal inFund = convertUnit(r.child(colIndex++).text());		//流入资金(元)	
 				BigDecimal outFund = convertUnit(r.child(colIndex++).text());		//流出资金(元)	
 				BigDecimal netAmount = convertUnit(r.child(colIndex++).text());	//净额(元)	

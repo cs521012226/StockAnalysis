@@ -141,12 +141,12 @@ public class BoardDataCrawler implements UrlCrawler {
 	
 	public void setRowData(List<BoardData> rs, Elements row, TradeType tradeType, Stock stock, String reason, Date boardDate){
 		for(Element data : row){
-			String cmpName = data.select("a").attr("title");
-			String buyMoney = data.select("td:eq(1)").text();
-			String saleMoney = data.select("td:eq(2)").text();
+			String cmpName = StringUtil.trim(data.select("a").attr("title"));
+			String buyMoney = StringUtil.trim(data.select("td:eq(1)").text());
+			String saleMoney = StringUtil.trim(data.select("td:eq(2)").text());
 			
 			Elements label = data.select("label");
-			String style = label == null ? "" : label.text();
+			String style = StringUtil.trim(label.text());
 			
 			BoardData scb = new BoardData(stock.getStockCode(), stock.getStockName(), cmpName, 
 					new BigDecimal(buyMoney), new BigDecimal(saleMoney), tradeType);
