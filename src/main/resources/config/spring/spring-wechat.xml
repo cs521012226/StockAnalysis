@@ -20,8 +20,8 @@
 	</bean>
 	
 	<!-- 龙虎榜分析管理 -->
-	<bean id="boardDataAnalysisManage" class="org.charles.app.analysis.impl.BoardDataAnalysisManage">
-		<property name="boardDataAnalysisList">
+	<bean id="baseAnalysisManage" class="org.charles.app.analysis.impl.BaseAnalysisManage">
+		<property name="analysisList">
       		<list>
       			<ref bean="organizationNumAnalysis" />
       		</list>

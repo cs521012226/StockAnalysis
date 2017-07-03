@@ -17,9 +17,9 @@ import org.charles.framework.util.DateUtil;
  * @author Charles
  *
  */
-public class BoardDataAnalysisManage implements StockAnalysisManage {
+public class BaseAnalysisManage implements StockAnalysisManage {
 	
-	private List<StockAnalysis> boardDataAnalysisList;
+	private List<StockAnalysis> analysisList;
 	
 	@Override
 	public void process() {
@@ -27,7 +27,7 @@ public class BoardDataAnalysisManage implements StockAnalysisManage {
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
 		
-		for(StockAnalysis analysis : boardDataAnalysisList){
+		for(StockAnalysis analysis : analysisList){
 			analysis.analyze(date, date, textTemplate);
 		}
 		
@@ -38,8 +38,8 @@ public class BoardDataAnalysisManage implements StockAnalysisManage {
 	public String getDate(){
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.set(Calendar.MONTH, 2);
-		c.set(Calendar.DAY_OF_MONTH, 3);
+		c.set(Calendar.MONTH, 5);
+		c.set(Calendar.DAY_OF_MONTH, 30);
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
@@ -47,12 +47,12 @@ public class BoardDataAnalysisManage implements StockAnalysisManage {
 		return DateUtil.convertDateToString(c.getTime());
 	}
 
-	public List<StockAnalysis> getBoardDataAnalysisList() {
-		return boardDataAnalysisList;
+	public List<StockAnalysis> getAnalysisList() {
+		return analysisList;
 	}
 
-	public void setBoardDataAnalysisList(
-			List<StockAnalysis> boardDataAnalysisList) {
-		this.boardDataAnalysisList = boardDataAnalysisList;
+	public void setAnalysisList(List<StockAnalysis> analysisList) {
+		this.analysisList = analysisList;
 	}
+
 }

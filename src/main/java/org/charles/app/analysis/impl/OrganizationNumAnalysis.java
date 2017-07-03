@@ -19,7 +19,7 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 	
 	@Override
 	public void analyze(String beginDate, String endDate, TextTemplate textTemplate) {
-		int limit = 4;
+		int limit = 3;
 		final String SEP = "、";
 		
 		List<BoardData> list = boardDataDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY, limit);
@@ -33,7 +33,7 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 			}else{
 				temp = saleList;
 			}
-			temp.append(SEP).append(bd.getStockName());
+			temp.append(SEP).append(bd.getStockName()).append("(").append(bd.getCmpCount()).append(")");
 		}
 		if(buyList.length() > 0){
 			buyList.delete(0, SEP.length());
@@ -51,8 +51,8 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("机构入驻大于").append(limit)
-		.append("的机构, B：").append(buyList.toString()).append(" S: ")
+		sb.append("专用机构大于").append(limit)
+		.append("的股票, B：").append(buyList.toString()).append(" S: ")
 		.append(saleList.toString());
 		
 		textTemplate.appendText(sb.toString());

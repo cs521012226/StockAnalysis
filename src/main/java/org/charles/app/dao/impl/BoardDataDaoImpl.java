@@ -87,7 +87,7 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 		}
 		sb.append(" group by s.stock_code,s.stock_name,bd.rank_type");
 		sb.append(" having cmp_count >= :cmpCount");
-		sb.append(" order by bd.rank_type,s.stock_code");
+		sb.append(" order by bd.rank_type,cmp_count desc,s.stock_code");
 		
 		param.put("cmpCode", cmpCode);
 		param.put("cmpCount", lg);

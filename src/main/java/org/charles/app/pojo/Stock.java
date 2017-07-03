@@ -13,8 +13,7 @@ public class Stock {
 	 * 机构专用编号
 	 * @Description: 
 	 */
-	public static final String SPECIAL_ORG_KEY = "CMP_000000";
-	public static final String SPECIAL_ORG_NAME = "机构专用";
+	public static final String SPECIAL_ORG_KEY = "f059330f43712b1226e217ba8484211e";
 	
 	private String stockCode;  //代码
 	private String stockName;  //名字
