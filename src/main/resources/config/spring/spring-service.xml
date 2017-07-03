@@ -92,5 +92,6 @@
 	<!-- 爬取创新高数据 -->
 	<bean id="newTopCrawler" class="org.charles.app.crawler.impl.NewTopCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/rank/cxg/board/%s/field/stockcode/order/asc/page/%s/ajax/1/"></property>
+		<property name="newTopDao" ref="newTopDao"></property>
 	</bean>
 </beans>

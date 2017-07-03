@@ -28,6 +28,8 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 	
 	@Override
 	public void craw() {
+		conceptFundRankDao.delete();
+		
 		period = Period.DAY_3;
 		List<ConceptFundRank> rs = getData();
 		saveData(rs);

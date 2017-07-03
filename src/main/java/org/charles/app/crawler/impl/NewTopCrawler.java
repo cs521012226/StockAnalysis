@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.charles.app.dao.NewTopDao;
 import org.charles.app.enums.Period;
 import org.charles.app.pojo.dto.NewTop;
 import org.charles.app.util.HtmlUtil;
@@ -23,12 +24,28 @@ import org.jsoup.select.Elements;
 public class NewTopCrawler extends BasePageCrawler<NewTop> {
 	private static Logger logger = Logger.getLogger(NewTopCrawler.class);
 	
-	private Period period = Period.MONTH;
+	private Period period;
+	private NewTopDao newTopDao;
 
 	@Override
 	public void craw() {
+		newTopDao.delete();
+		
+		period = Period.MONTH;
 		List<NewTop> rs = getData();
-		System.out.println(rs);
+		saveData(rs);
+		
+		period = Period.HALF_YEAR;
+		rs = getData();
+		saveData(rs);
+		
+		period = Period.YEAR;
+		rs = getData();
+		saveData(rs);
+		
+		period = Period.HIS;
+		rs = getData();
+		saveData(rs);
 	}
 	
 	@Override
@@ -80,6 +97,18 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 		return data;
 	}
 	
+	public void saveData(List<NewTop> data){
+		newTopDao.saveBatch(data);
+	}
+	
+	public NewTopDao getNewTopDao() {
+		return newTopDao;
+	}
+
+	public void setNewTopDao(NewTopDao newTopDao) {
+		this.newTopDao = newTopDao;
+	}
+
 	private String getType(){
 		switch (period) {
 		case MONTH:
@@ -94,17 +123,4 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 			return "4";
 		}
 	}
-	
-
-	public Period getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(Period period) {
-		this.period = period;
-	}
-	public void setPeriodStr(String period) {
-		setPeriod(Period.get(period));
-	}
-	
 }
