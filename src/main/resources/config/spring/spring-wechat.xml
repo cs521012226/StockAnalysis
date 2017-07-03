@@ -13,7 +13,20 @@
 		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/aop
      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+     	
+<!-- *********************************** 微信消息处理 ******************************************* -->
+    <bean id="basicProcess" class="org.charles.wechat.basic.BasicProcess">
+		<property name="handle" ref="subscribeEventHandler"></property>
+	</bean>
 	
+    <bean id="subscribeEventHandler" class="org.charles.wechat.handler.SubscribeEventHandler">
+		<property name="next" ref="textMsgHandler"></property>
+	</bean>
+    <bean id="textMsgHandler" class="org.charles.wechat.handler.TextMsgHandler">
+	</bean>
+	
+	
+<!--***************************************** 分析器业务 ***************************************** -->	
 	<!-- 机构数目分析 -->
 	<bean id="organizationNumAnalysis" class="org.charles.app.analysis.impl.OrganizationNumAnalysis">
 		<property name="boardDataDao" ref="boardDataDao"></property>
