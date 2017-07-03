@@ -15,25 +15,6 @@
      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
      	
      	
-     	
-<!-- 定时任务调度 *******************************************************-->	
-
-	<!-- 龙虎榜数据获取任务 -->
-	<bean id="boardDataExtractTask" class="org.charles.app.timer.task.BoardDataExtractTask">
-		<property name="boardDataCrawler" ref="boardDataCrawler"></property>
-	</bean>
-	<!-- 营业部排名获取任务 -->
-	<bean id="companyRankExtractTask" class="org.charles.app.timer.task.CompanyRankExtractTask">
-		<property name="companyRankCrawler" ref="companyRankCrawler"></property>
-	</bean>
-
-     <!-- 定时任务 -->
-	<bean id="dataExtractTimer" class="org.charles.app.timer.DataExtractTimer">
-		<property name="boardDataExtractTask" ref="boardDataExtractTask"></property>
-		<property name="companyRankExtractTask" ref="companyRankExtractTask"></property>
-	</bean>
-	
-	
 <!-- 公共服务******************************************************* -->	
 	<!-- 系统参数工具 -->
 	<bean id="SysParamUtil" class="org.charles.app.util.SysParamUtil">
@@ -43,9 +24,13 @@
 			</list>
 		</property>
 	</bean>
+	<!-- 系统日志工具 -->
+	<bean id="LogUtil" class="org.charles.app.util.LogUtil">
+		<property name="oprLogsDao" ref="oprLogsDao"></property>
+	</bean>
 
 	
-<!-- 普通服务*******************************************************-->	
+<!-- 普通业务服务*******************************************************-->	
 	
 	<!-- 龙虎榜数据服务 -->
 	<!-- <bean id="boardDataService" class="org.charles.app.service.impl.BoardDataServiceImpl">
@@ -59,7 +44,26 @@
 		<property name="sysParamDao" ref="sysParamDao"></property>
 	</bean>
 	
-	
+
+     	
+<!-- 定时任务调度 *******************************************************-->	
+
+	<!-- 获取数据任务 -->
+	<bean id="dataExtractTask" class="org.charles.app.timer.task.DataExtractTask">
+		<property name="boardDataCrawler" ref="boardDataCrawler"></property>
+		<property name="companyRankCrawler" ref="companyRankCrawler"></property>
+		<property name="bigTradeCrawler" ref="bigTradeCrawler"></property>
+		<property name="conceptFundRankCrawler" ref="conceptFundRankCrawler"></property>
+		<property name="individualStockFundCrawler" ref="individualStockFundCrawler"></property>
+		<property name="newTopCrawler" ref="newTopCrawler"></property>
+	</bean>
+
+     <!-- 定时任务 -->
+	<bean id="dataExtractTimer" class="org.charles.app.timer.DataExtractTimer">
+		<property name="dataExtractTask" ref="dataExtractTask"></property>
+	</bean>
+
+
 <!-- 爬虫服务 *******************************************************-->	
 	<!-- 爬取龙虎榜数据 -->
 	<bean id="boardDataCrawler" class="org.charles.app.crawler.impl.BoardDataCrawler">

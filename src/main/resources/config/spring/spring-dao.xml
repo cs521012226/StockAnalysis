@@ -36,7 +36,12 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
-	<!-- 爬虫部分DAO -->
+	<!--日志 -->
+	<bean id="oprLogsDao" class="org.charles.app.dao.impl.OprLogsDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!--********************** 爬虫部分DAO *********************************************-->
 	<!--营业部排名 -->
 	<bean id="companyRankDao" class="org.charles.app.dao.impl.CompanyRankDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>

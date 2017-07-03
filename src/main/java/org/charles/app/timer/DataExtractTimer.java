@@ -24,8 +24,7 @@ public class DataExtractTimer {
 		
 	}
 
-	private TimerTask boardDataExtractTask;
-	private TimerTask companyRankExtractTask;
+	private TimerTask dataExtractTask;
 	
 	public static void start(){
 		Timer t = new Timer();
@@ -33,8 +32,7 @@ public class DataExtractTimer {
 		Date firstTime = getFirstTime();
 		long periodTime = getPeriodTime();
 		
-		t.scheduleAtFixedRate(self.boardDataExtractTask, firstTime, periodTime);
-		t.scheduleAtFixedRate(self.companyRankExtractTask, firstTime, periodTime);
+		t.scheduleAtFixedRate(self.dataExtractTask, firstTime, periodTime);
 		
 	}
 	
@@ -67,20 +65,7 @@ public class DataExtractTimer {
 		return period;
 	}
 
-	public TimerTask getBoardDataExtractTask() {
-		return boardDataExtractTask;
+	public void setDataExtractTask(TimerTask dataExtractTask) {
+		self.dataExtractTask = dataExtractTask;
 	}
-
-	public void setBoardDataExtractTask(TimerTask boardDataExtractTask) {
-		self.boardDataExtractTask = boardDataExtractTask;
-	}
-
-	public TimerTask getCompanyRankExtractTask() {
-		return companyRankExtractTask;
-	}
-
-	public void setCompanyRankExtractTask(TimerTask companyRankExtractTask) {
-		self.companyRankExtractTask = companyRankExtractTask;
-	}
-	
 }
