@@ -18,12 +18,17 @@
 	<bean id="organizationNumAnalysis" class="org.charles.app.analysis.impl.OrganizationNumAnalysis">
 		<property name="boardDataDao" ref="boardDataDao"></property>
 	</bean>
+	<!-- 创新高且上榜的股票 -->
+	<bean id="newTopBoardAnalysis" class="org.charles.app.analysis.impl.NewTopBoardAnalysis">
+		<property name="boardDataDao" ref="boardDataDao"></property>
+	</bean>
 	
 	<!-- 龙虎榜分析管理 -->
 	<bean id="baseAnalysisManage" class="org.charles.app.analysis.impl.BaseAnalysisManage">
 		<property name="analysisList">
       		<list>
       			<ref bean="organizationNumAnalysis" />
+      			<ref bean="newTopBoardAnalysis" />
       		</list>
       </property>
 	</bean>

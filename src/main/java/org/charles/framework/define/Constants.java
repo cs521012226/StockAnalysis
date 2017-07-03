@@ -9,5 +9,6 @@ public class Constants {
     //换行符
     public static final String LF = "\n";
     
+    public static final String SEP = "、";
     
 }

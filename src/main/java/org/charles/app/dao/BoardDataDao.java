@@ -44,6 +44,16 @@ public interface BoardDataDao {
 	 */
 	public List<BoardData> findCmpCount(String beginDate, String endDate, String cmpCode, int lg) throws BusinessException;
 	
+	/**
+	 * 获取创新高且上榜的股票
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param date
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<BoardData> findNewTopBoard(String date) throws BusinessException;
+	
 	
 	public void save(BoardData e) throws BusinessException;
 	

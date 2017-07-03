@@ -121,6 +121,31 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 	}
 
 
+	@Override
+	public List<BoardData> findNewTopBoard(String date) throws BusinessException {
+		
+		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name");
+		sb.append(" from board_data bd ");
+		sb.append(" inner join new_top nt ");
+		sb.append(" on bd.stock_code = nt.stock_code");
+		sb.append(" where bd.create_date = ?");
+		sb.append(" group by nt.stock_code,nt.stock_name");
+		
+		return getJdbcTemplate().query(sb.toString(), new Object[]{ date }, new RowMapper<BoardData>(){
+
+			@Override
+			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				BoardData m = new BoardData();
+				m.setStockName(rs.getString("stock_name"));//股票名字
+				m.setStockCode(rs.getString("stock_code")); //股票代码
+//				m.setRankType(rs.getString("rank_type")); //排名类型
+				return m;
+			}
+			
+		});
+	}
+
 
 	@Override
 	public void save(BoardData p) throws BusinessException {
