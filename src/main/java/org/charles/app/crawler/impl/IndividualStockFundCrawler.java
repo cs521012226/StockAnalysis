@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.charles.app.dao.IndividualStockFundDao;
 import org.charles.app.pojo.dto.IndividualStockFund;
 import org.charles.app.util.HtmlUtil;
 import org.charles.framework.util.StringUtil;
@@ -19,15 +20,15 @@ import org.jsoup.select.Elements;
  */
 public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockFund> {
 	private static Logger logger = Logger.getLogger(IndividualStockFundCrawler.class);
+	
+	private IndividualStockFundDao individualStockFundDao;
 
 	@Override
 	public void craw() {
-		try {
-			List<IndividualStockFund> rs = getData();
-			System.out.println(rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		individualStockFundDao.delete();
+		
+		List<IndividualStockFund> rs = getData();
+		individualStockFundDao.saveBatch(rs);
 	}
 	
 	@Override
@@ -89,5 +90,14 @@ public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockF
 			rs = new BigDecimal(rs.doubleValue() * 10000);
 		}
 		return rs;
+	}
+
+	public IndividualStockFundDao getIndividualStockFundDao() {
+		return individualStockFundDao;
+	}
+
+	public void setIndividualStockFundDao(
+			IndividualStockFundDao individualStockFundDao) {
+		this.individualStockFundDao = individualStockFundDao;
 	}
 }

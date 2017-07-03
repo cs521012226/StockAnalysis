@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.charles.app.dao.BigTradeDao;
 import org.charles.app.pojo.dto.BigTrade;
 import org.charles.app.util.HtmlUtil;
 import org.charles.framework.util.DateUtil;
@@ -21,15 +22,16 @@ import org.jsoup.select.Elements;
  */
 public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 	private static Logger logger = Logger.getLogger(BigTradeCrawler.class);
+	
+	private BigTradeDao bigTradeDao;
 
 	@Override
 	public void craw() {
-		try {
-			List<BigTrade> rs = getData();
-			logger.info(rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		bigTradeDao.delete();
+		
+		List<BigTrade> rs = getData();
+		bigTradeDao.saveBatch(rs);
+		
 	}
 	
 	public Unit<BigTrade> parser(int startPageNumber, int endPageNumber){
@@ -82,4 +84,13 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 		data.setData(rs);
 		return data;
 	}
+
+	public BigTradeDao getBigTradeDao() {
+		return bigTradeDao;
+	}
+
+	public void setBigTradeDao(BigTradeDao bigTradeDao) {
+		this.bigTradeDao = bigTradeDao;
+	}
+	
 }

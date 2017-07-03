@@ -30,18 +30,32 @@
 	<bean id="companyDao" class="org.charles.app.dao.impl.CompanyDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<!--营业部排名 -->
-	<bean id="companyRankDao" class="org.charles.app.dao.impl.CompanyRankDaoImpl">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
 	
 	<!--股票 -->
 	<bean id="stockDao" class="org.charles.app.dao.impl.StockDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!-- 爬虫部分DAO -->
+	<!--营业部排名 -->
+	<bean id="companyRankDao" class="org.charles.app.dao.impl.CompanyRankDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 大单追踪 -->
+	<bean id="bigTradeDao" class="org.charles.app.dao.impl.BigTradeDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
 	<!--龙虎榜数据列表 -->
 	<bean id="boardDataDao" class="org.charles.app.dao.impl.BoardDataDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 概念资金排名 -->
+	<bean id="conceptFundRankDao" class="org.charles.app.dao.impl.ConceptFundRankDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 概念资金排名 -->
+	<bean id="individualStockFundDao" class="org.charles.app.dao.impl.IndividualStockFundDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 

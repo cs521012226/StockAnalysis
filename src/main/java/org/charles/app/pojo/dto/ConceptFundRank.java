@@ -2,6 +2,8 @@ package org.charles.app.pojo.dto;
 
 import java.math.BigDecimal;
 
+import org.charles.app.enums.Period;
+
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -18,6 +20,7 @@ public class ConceptFundRank {
 	private BigDecimal inFund;		//流入资金(亿)
 	private BigDecimal outFund;		//流出资金(亿)	
 	private BigDecimal netAmount;	//净额(亿)
+	private Period period;	//日期类型
 	
 	@Override
 	public String toString() {
@@ -69,4 +72,13 @@ public class ConceptFundRank {
 	public void setNetAmount(BigDecimal netAmount) {
 		this.netAmount = netAmount;
 	}
+
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
+	
 }

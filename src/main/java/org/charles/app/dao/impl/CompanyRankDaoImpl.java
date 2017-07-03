@@ -1,6 +1,7 @@
 package org.charles.app.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.charles.app.dao.CompanyRankDao;
@@ -36,14 +37,20 @@ public class CompanyRankDaoImpl extends NamedParameterJdbcDaoSupport implements 
 	}
 	@Override
 	public void saveBatch(List<CompanyRank> pl) throws BusinessException {
-		String sql = "insert into company_rank(cmp_code, rank_count, amount, rank_count_year, buy_stock_count, period) values(?,?,?,?,?,?)";
+		String sql = "insert into company_rank(cmp_code, rank_count, amount, rank_count_year, buy_stock_count, period, create_date) values(?,?,?,?,?,?,?)";
 		List<Object[]> params = new ArrayList<Object[]>(pl.size());
 		
 		for(int i=0; i<pl.size(); i++){
 			CompanyRank p = pl.get(i);
 			
-			params.add(new Object[]{HashCrypt.MD5(p.getCmpName()), p.getRankCount(), 
-					p.getAmount(), p.getRankCountYear(), p.getBuyStockCount(), p.getPeriod().toString()});
+			params.add(new Object[]{
+					HashCrypt.MD5(p.getCmpName()), 
+					p.getRankCount(), 
+					p.getAmount(), 
+					p.getRankCountYear(), 
+					p.getBuyStockCount(), 
+					p.getPeriod().toString(),
+					new Date()});
 		}
 		getJdbcTemplate().batchUpdate(sql, params);
 	}

@@ -29,25 +29,19 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 
 	@Override
 	public void craw() {
-		try {
-			companyRankDao.delete();
-			
-			period = Period.DAY;
-			List<CompanyRank> rs = getData();
-			companyRankDao.saveBatch(rs);
-			
-			period = Period.WEEK;
-			rs = getData();
-			companyRankDao.saveBatch(rs);
-			
-			period = Period.MONTH;
-			rs = getData();
-			companyRankDao.saveBatch(rs);
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		companyRankDao.delete();
+		
+		period = Period.DAY;
+		List<CompanyRank> rs = getData();
+		companyRankDao.saveBatch(rs);
+		
+		period = Period.WEEK;
+		rs = getData();
+		companyRankDao.saveBatch(rs);
+		
+		period = Period.MONTH;
+		rs = getData();
+		companyRankDao.saveBatch(rs);
 	}
 	
 	public Unit<CompanyRank> parser(int startPageNumber, int endPageNumber){
@@ -99,7 +93,6 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 	private BigDecimal convertUnit(String text){
 		BigDecimal rs = new BigDecimal(text.replaceAll("万|亿", ""));
 		if(text.contains("亿")){
-//			rs = rs.multiply(new BigDecimal(10000));
 			rs = new BigDecimal(rs.doubleValue() * 10000);
 		}
 		return rs;

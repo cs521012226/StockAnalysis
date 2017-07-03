@@ -27,12 +27,8 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 
 	@Override
 	public void craw() {
-		try {
-			List<NewTop> rs = getData();
-			System.out.println(rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<NewTop> rs = getData();
+		System.out.println(rs);
 	}
 	
 	@Override

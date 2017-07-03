@@ -7,7 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.charles.app.crawler.UrlCrawler;
+import org.charles.framework.exp.BusinessException;
 
 /**
  * 分页爬取数据抽象类
@@ -16,10 +18,10 @@ import org.charles.app.crawler.UrlCrawler;
  * @param <T>
  */
 public abstract class BasePageCrawler<T> implements UrlCrawler{
-	
+	protected Logger logger = Logger.getLogger(getClass());
 	private String url;
 	
-	public List<T> getData() throws Exception{
+	public List<T> getData() {
 		
 		int pageNumber = 1;
 		int pageSize = 10;
@@ -44,8 +46,13 @@ public abstract class BasePageCrawler<T> implements UrlCrawler{
 		es.shutdown();
 		
 		List<T> dataSource = firstUnit.getData();
-		for(Future<Unit<T>> fu : futureList){
-			dataSource.addAll(fu.get().getData());
+		try {
+			for(Future<Unit<T>> fu : futureList){
+					dataSource.addAll(fu.get().getData());
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw BusinessException.define(e.getMessage());
 		}
 		return dataSource;
 	}

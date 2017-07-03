@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.charles.app.dao.ConceptFundRankDao;
 import org.charles.app.enums.Period;
 import org.charles.app.pojo.dto.ConceptFundRank;
 import org.charles.app.util.HtmlUtil;
@@ -14,23 +15,31 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * 爬取概念资金排行数据（目前只支持3日排行）
+ * 爬取概念资金排行数据
  * @author YeChao
  * 2017年6月28日
  */
 public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 	private static Logger logger = Logger.getLogger(ConceptFundRankCrawler.class);
 
-	private Period period = Period.DAY_3;
+	private Period period;
+	
+	private ConceptFundRankDao conceptFundRankDao;
 	
 	@Override
 	public void craw() {
-		try {
-			List<ConceptFundRank> rs = getData();
-			System.out.println(rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		period = Period.DAY_3;
+		List<ConceptFundRank> rs = getData();
+		saveData(rs);
+		period = Period.DAY_5;
+		rs = getData();
+		saveData(rs);
+		period = Period.DAY_10;
+		rs = getData();
+		saveData(rs);
+		period = Period.DAY_20;
+		rs = getData();
+		saveData(rs);
 	}
 	
 	@Override
@@ -72,6 +81,7 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 				cr.setInFund(inFund);
 				cr.setOutFund(outFund);
 				cr.setNetAmount(netAmount);
+				cr.setPeriod(period);
 				
 				rs.add(cr);
 			}
@@ -80,6 +90,16 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 		}
 		data.setData(rs);
 		return data;
+	}
+	
+	/**
+	 * 保存数据
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param data
+	 */
+	public void saveData(List<ConceptFundRank> data){
+		conceptFundRankDao.saveBatch(data);
 	}
 	
 	private String getType(){
@@ -102,5 +122,12 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 	public void setPeriodStr(String period) {
 		this.period = Period.get(period);
 	}
-	
+
+	public ConceptFundRankDao getConceptFundRankDao() {
+		return conceptFundRankDao;
+	}
+
+	public void setConceptFundRankDao(ConceptFundRankDao conceptFundRankDao) {
+		this.conceptFundRankDao = conceptFundRankDao;
+	}
 }

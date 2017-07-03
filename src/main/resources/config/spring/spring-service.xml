@@ -77,19 +77,20 @@
 	<!-- 爬取大单追踪数据 -->
 	<bean id="bigTradeCrawler" class="org.charles.app.crawler.impl.BigTradeCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/funds/ddzz/order/asc/page/%s/ajax/1/"></property>
-	</bean>
-	<!-- 爬取个股资金流向数据 -->
-	<bean id="individualStockFundCrawler" class="org.charles.app.crawler.impl.IndividualStockFundCrawler">
-		<property name="url" value="http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/%s/ajax/1/"></property>
+		<property name="bigTradeDao" ref="bigTradeDao"></property>
 	</bean>
 	<!-- 爬取概念资金流向数据 -->
 	<bean id="conceptFundRankCrawler" class="org.charles.app.crawler.impl.ConceptFundRankCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/funds/gnzjl/board/%s/field/tradezdf/order/desc/page/%s/ajax/1/"></property>
-		<property name="periodStr" value="DAY_10"></property>
+		<property name="conceptFundRankDao" ref="conceptFundRankDao"></property>
 	</bean>
-	<!-- 爬取概念资金流向数据 -->
+	<!-- 爬取个股资金流向数据 -->
+	<bean id="individualStockFundCrawler" class="org.charles.app.crawler.impl.IndividualStockFundCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/%s/ajax/1/"></property>
+		<property name="individualStockFundDao" ref="individualStockFundDao"></property>
+	</bean>
+	<!-- 爬取创新高数据 -->
 	<bean id="newTopCrawler" class="org.charles.app.crawler.impl.NewTopCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/rank/cxg/board/%s/field/stockcode/order/asc/page/%s/ajax/1/"></property>
-		<property name="periodStr" value="day"></property>
 	</bean>
 </beans>
