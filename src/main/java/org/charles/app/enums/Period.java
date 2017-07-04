@@ -17,8 +17,10 @@ public enum Period {
 	DAY_3,
 	DAY_5,
 	DAY_10,
-	DAY_20;
-	
+	DAY_20,
+	DAY_30,
+	DAY_60,
+	DAY_90;
 	
 	public static Period get(String type){
 		for(Period p : Period.values()){

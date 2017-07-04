@@ -26,15 +26,15 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 
 	@Override
 	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
-		getJdbcTemplate().update("delete from board_data where create_date >= ?", new Object[]{ date });
+		getJdbcTemplate().update("delete from board_data where create_date >= ?", new Object[]{ DateUtil.convertDateToString(date) });
 		if(andNow){
-			getJdbcTemplate().update("delete from board_data where create_date = ?", new Object[]{ new Date() });
+			getJdbcTemplate().update("delete from board_data where create_date = ?", new Object[]{ DateUtil.convertDateToString(new Date()) });
 		}
 	}
 
 
 	@Override
-	public List<BoardData> queryListByDate(String date) throws BusinessException {
+	public List<BoardData> queryListByDate(Date date) throws BusinessException {
 		StringBuilder sb = new StringBuilder("select s.stock_name,");
 		sb.append("s.stock_code,");
 		sb.append("c.cmp_name,");
@@ -51,7 +51,7 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 		sb.append(" where bd.board_date = ?");
 		sb.append(" order by bd.stock_code,bd.rank_type");
 		
-		return getJdbcTemplate().query(sb.toString(), new Object[]{ date }, new RowMapper<BoardData>(){
+		return getJdbcTemplate().query(sb.toString(), new Object[]{ DateUtil.convertDateToString(date) }, new RowMapper<BoardData>(){
 
 			@Override
 			public BoardData mapRow(ResultSet rs, int rowNum)
@@ -76,7 +76,7 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 	
 
 	@Override
-	public List<BoardData> findCmpCount(String beginDate, String endDate, String cmpCode, int lg) throws BusinessException {
+	public List<BoardData> findCmpCount(Date beginDate, Date endDate, String cmpCode, int lg) throws BusinessException {
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		StringBuilder sb = new StringBuilder();
@@ -88,12 +88,12 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 		sb.append(" inner join stock s on bd.stock_code = s.stock_code");
 		sb.append(" where bd.cmp_code = :cmpCode");
 		if(beginDate != null){
-			sb.append(" and bd.board_date >= :beginDate");
-			param.put("beginDate", beginDate);
+			sb.append(" and bd.create_date >= :beginDate");
+			param.put("beginDate", DateUtil.convertDateToString(beginDate));
 		}
 		if(endDate != null){
-			sb.append(" and bd.board_date <= :endDate");
-			param.put("endDate", endDate);
+			sb.append(" and bd.create_date <= :endDate");
+			param.put("endDate", DateUtil.convertDateToString(endDate));
 		}
 		sb.append(" group by s.stock_code,s.stock_name,bd.rank_type");
 		sb.append(" having cmp_count >= :cmpCount");
@@ -122,7 +122,7 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 
 
 	@Override
-	public List<BoardData> findNewTopBoard(String date) throws BusinessException {
+	public List<BoardData> findNewTopBoard(Date date) throws BusinessException {
 		
 		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name");
 		sb.append(" from board_data bd ");
@@ -131,8 +131,8 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 		sb.append(" where bd.create_date = ?");
 		sb.append(" group by nt.stock_code,nt.stock_name");
 		
-		return getJdbcTemplate().query(sb.toString(), new Object[]{ date }, new RowMapper<BoardData>(){
-
+		return getJdbcTemplate().query(sb.toString(), new Object[]{ DateUtil.convertDateToString(date) }, new RowMapper<BoardData>(){
+			
 			@Override
 			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
 				
@@ -167,7 +167,7 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 	@Override
 	public boolean isExistData(Date boardDate) throws BusinessException {
 		String sql = "select count(1) from board_data where board_date = ?";
-		return getJdbcTemplate().queryForInt(sql, new Object[]{ boardDate }) > 0 ? true : false;
+		return getJdbcTemplate().queryForInt(sql, new Object[]{ DateUtil.convertDateToString(boardDate) }) > 0 ? true : false;
 	}
 	
 }

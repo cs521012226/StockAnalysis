@@ -89,7 +89,7 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 				
 				rs.add(cr);
 			}
-			logger.info(Thread.currentThread().getId() + ", startPageNumber = " + startPageNumber);
+			logger.info(Thread.currentThread().getId() + ", period = " + period + ", startPageNumber = " + startPageNumber);
 			startPageNumber++;
 		}
 		data.setData(rs);

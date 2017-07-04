@@ -1,5 +1,7 @@
 package org.charles.app.analysis;
 
+import java.util.Date;
+
 import org.charles.app.msg.TextTemplate;
 
 /**
@@ -16,5 +18,5 @@ public interface StockAnalysis {
 	 * @param endDate	结束日期
 	 * @param textTemplate	结果模版
 	 */
-	public void analyze(String beginDate, String endDate, TextTemplate textTemplate);
+	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate);
 }

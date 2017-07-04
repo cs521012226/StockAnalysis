@@ -20,6 +20,7 @@ public class DataExtractTask extends TimerTask{
 	private UrlCrawler conceptFundRankCrawler;
 	private UrlCrawler individualStockFundCrawler;
 	private UrlCrawler newTopCrawler;
+	private UrlCrawler breakThroughCrawler;
 
 	@Override
 	public void run() {
@@ -29,14 +30,24 @@ public class DataExtractTask extends TimerTask{
 		crawData(conceptFundRankCrawler, "概念资金数据");
 		crawData(individualStockFundCrawler, "个股资金数据");
 		crawData(newTopCrawler, "创新高股票数据");
+		crawData(breakThroughCrawler, "向上突破股票数据");
 	}
 	
 	public void crawData(UrlCrawler crawer, String title){
 		logger.info("爬取" + title + "开始...");
-		try {
-			crawer.craw();
-		} catch (Exception e) {
-			LogUtil.expLog(e);
+		while(true){
+			try {
+				crawer.craw();
+				break;
+			} catch (Exception e) {
+				LogUtil.expLog(e);
+				try {
+					Thread.sleep(10 * 1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+					break;
+				}
+			}
 		}
 		logger.info("爬取" + title + "结束...");
 	}
@@ -87,5 +98,13 @@ public class DataExtractTask extends TimerTask{
 
 	public void setNewTopCrawler(UrlCrawler newTopCrawler) {
 		this.newTopCrawler = newTopCrawler;
+	}
+
+	public UrlCrawler getBreakThroughCrawler() {
+		return breakThroughCrawler;
+	}
+
+	public void setBreakThroughCrawler(UrlCrawler breakThroughCrawler) {
+		this.breakThroughCrawler = breakThroughCrawler;
 	}
 }

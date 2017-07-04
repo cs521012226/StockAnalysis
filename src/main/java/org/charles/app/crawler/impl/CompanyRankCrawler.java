@@ -85,7 +85,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 				
 				rs.add(cr);
 			}
-			logger.info(Thread.currentThread().getId() + ", startPageNumber = " + startPageNumber);
+			logger.info(Thread.currentThread().getId() + ", period = " + period + ", startPageNumber = " + startPageNumber);
 			startPageNumber++;
 		}
 		data.setData(rs);

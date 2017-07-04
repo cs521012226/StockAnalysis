@@ -1,4 +1,4 @@
-package org.charles.wechat;
+/*package org.charles.wechat;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,3 +32,4 @@ public class Main {
 	}
 
 }
+*/

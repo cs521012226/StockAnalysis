@@ -7,7 +7,7 @@ import java.security.MessageDigest;
  * @author Charles
  *
  */
-public class HashCrypt {
+public class CipherUtil {
 
 	
 	/** 

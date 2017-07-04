@@ -29,7 +29,7 @@ public interface BoardDataDao {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<BoardData> queryListByDate(String date) throws BusinessException;
+	public List<BoardData> queryListByDate(Date date) throws BusinessException;
 	
 	
 	/** 
@@ -42,7 +42,7 @@ public interface BoardDataDao {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<BoardData> findCmpCount(String beginDate, String endDate, String cmpCode, int lg) throws BusinessException;
+	public List<BoardData> findCmpCount(Date beginDate, Date Date, String cmpCode, int lg) throws BusinessException;
 	
 	/**
 	 * 获取创新高且上榜的股票
@@ -52,7 +52,7 @@ public interface BoardDataDao {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<BoardData> findNewTopBoard(String date) throws BusinessException;
+	public List<BoardData> findNewTopBoard(Date date) throws BusinessException;
 	
 	
 	public void save(BoardData e) throws BusinessException;

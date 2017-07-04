@@ -56,6 +56,7 @@
 		<property name="conceptFundRankCrawler" ref="conceptFundRankCrawler"></property>
 		<property name="individualStockFundCrawler" ref="individualStockFundCrawler"></property>
 		<property name="newTopCrawler" ref="newTopCrawler"></property>
+		<property name="breakThroughCrawler" ref="breakThroughCrawler"></property>
 	</bean>
 
      <!-- 定时任务 -->
@@ -97,5 +98,10 @@
 	<bean id="newTopCrawler" class="org.charles.app.crawler.impl.NewTopCrawler">
 		<property name="url" value="http://data.10jqka.com.cn/rank/cxg/board/%s/field/stockcode/order/asc/page/%s/ajax/1/"></property>
 		<property name="newTopDao" ref="newTopDao"></property>
+	</bean>
+	<!-- 向上突破股票数据 -->
+	<bean id="breakThroughCrawler" class="org.charles.app.crawler.impl.BreakThroughCrawler">
+		<property name="url" value="http://data.10jqka.com.cn/rank/xstp/board/%s/ajax/1/order/asc/page/%s/"></property>
+		<property name="breakThroughDao" ref="breakThroughDao"></property>
 	</bean>
 </beans>

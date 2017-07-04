@@ -1,6 +1,5 @@
 package org.charles.app.analysis.impl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 	
 	@Override
 	public void process() {
-		String date = getDate();
+		Date date = getDate();
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
 		
@@ -35,8 +34,8 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		dataOutput.execute();
 	}
 	
-	public String getDate(){
-		Calendar c = Calendar.getInstance();
+	public Date getDate(){
+		/*Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.set(Calendar.MONTH, 5);
 		c.set(Calendar.DAY_OF_MONTH, 30);
@@ -44,7 +43,9 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
 		
-		return DateUtil.convertDateToString(c.getTime());
+		return DateUtil.convertDateToString(c.getTime());*/
+		return DateUtil.addDay(new Date(), -1);
+//		return new Date();
 	}
 
 	public List<StockAnalysis> getAnalysisList() {

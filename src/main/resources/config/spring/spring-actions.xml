@@ -17,4 +17,10 @@
 
 	<bean id="testAction" class="org.charles.app.action.TestAction">
 	</bean>
+	
+	
+	<!--********************************* 微信模块*************************************** -->
+	<bean id="msgReceiveAction" class="org.charles.wechat.action.MsgReceiveAction">
+		<property name="basicProcess" ref="basicProcess"></property>
+	</bean>
 </beans>

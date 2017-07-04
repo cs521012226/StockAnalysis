@@ -7,7 +7,7 @@ import java.util.List;
 import org.charles.app.dao.CompanyDao;
 import org.charles.app.pojo.Company;
 import org.charles.framework.exp.BusinessException;
-import org.charles.framework.util.HashCrypt;
+import org.charles.framework.util.CipherUtil;
 import org.charles.framework.util.SqlHelper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
@@ -38,7 +38,7 @@ public class CompanyDaoImpl extends NamedParameterJdbcDaoSupport implements Comp
 
 	@Override
 	public Company save(Company p) throws BusinessException {
-		p.setCmpCode(HashCrypt.MD5(p.getCmpName()));
+		p.setCmpCode(CipherUtil.MD5(p.getCmpName()));
 		
 		SqlHelper.Insert u = SqlHelper.getInsert("company");
 		u.value("cmp_code", p.getCmpCode()); //代码

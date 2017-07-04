@@ -12,8 +12,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.log4j.Logger;
 import org.charles.framework.define.Constants;
+import org.charles.framework.util.FileUtil;
 import org.charles.wechat.handler.AbstractMsgHandler;
-import org.charles.wechat.util.IOUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
@@ -77,7 +77,7 @@ public class BasicProcess {
 			
 			
 			//读取input数据
-			String inputData = IOUtil.readToStr(read);
+			String inputData = FileUtil.readToStr(read);
 			logger.info("receive input message: \n" + inputData);
 			// 解析输入数据为XML
 			Document inDoc = DocumentHelper.parseText(inputData);
@@ -91,7 +91,7 @@ public class BasicProcess {
 				String resultXml = buildXml(outDoc);
 				logger.info("response output message: \n" + resultXml);
 				// 响应数据
-				IOUtil.writeFromStr(resultXml, write);
+				FileUtil.writeFromStr(resultXml, write);
 			}
 			
 			

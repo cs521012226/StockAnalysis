@@ -114,6 +114,73 @@ public class NumberUtil {
 		}
 	}
 	
+	public static enum Unit{
+		YUAN("元"),
+		WANG("万"),
+		YI("亿");
+		
+		private String text;
+		Unit(String text){
+			this.text = text;
+		}
+		public String getText(){
+			return text;
+		}
+	}
+	
+	/**
+	 * 转换单位
+	 * @author YeChao
+	 * 2017年7月4日
+	 * @param text
+	 * @param unit
+	 * @return
+	 */
+	public static BigDecimal convertUnit(String text, Unit unit){
+		text = text.trim();
+		StringBuilder sb = new StringBuilder();
+		for(Unit u : Unit.values()){
+			sb.append("|").append(u.getText());
+		}
+		
+		BigDecimal rs = new BigDecimal(text.replaceAll(sb.substring(1), ""));
+		if(text.contains(Unit.YUAN.getText())){
+			switch(unit){
+			case WANG : 
+				rs = new BigDecimal(rs.doubleValue() / 10000);
+				break;
+			case YI : 
+				rs = new BigDecimal(rs.doubleValue() / (10000 * 10000));
+				break;
+			default:
+				break;
+			}
+		}else if(text.contains(Unit.WANG.getText())){
+			switch(unit){
+			case YUAN : 
+				rs = new BigDecimal(rs.doubleValue() * 10000);
+				break;
+			case YI : 
+				rs = new BigDecimal(rs.doubleValue() / 10000);
+				break;
+			default:
+				break;
+			}
+		}else if(text.contains(Unit.YI.getText())){
+			switch(unit){
+			case YUAN : 
+				rs = new BigDecimal(rs.doubleValue() * (10000 * 10000));
+				break;
+			case WANG : 
+				rs = new BigDecimal(rs.doubleValue() * 10000);
+				break;
+			default:
+				break;
+			}
+		}
+		return rs;
+	}
+	
 	public static String random(int bit){
 		Random r = new Random();
 		StringBuilder guid = new StringBuilder();

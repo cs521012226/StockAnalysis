@@ -1,5 +1,6 @@
 package org.charles.app.analysis.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.charles.app.dao.BoardDataDao;
@@ -19,7 +20,7 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 	private BoardDataDao boardDataDao;
 	
 	@Override
-	public void analyze(String beginDate, String endDate, TextTemplate textTemplate) {
+	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
 		int limit = 3;
 		
 		List<BoardData> list = boardDataDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY, limit);

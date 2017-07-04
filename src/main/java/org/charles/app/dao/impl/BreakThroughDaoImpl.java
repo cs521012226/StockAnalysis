@@ -4,47 +4,47 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.charles.app.dao.NewTopDao;
-import org.charles.app.pojo.dto.NewTop;
+import org.charles.app.dao.BreakThroughDao;
+import org.charles.app.pojo.dto.BreakThrough;
 import org.charles.framework.exp.BusinessException;
 import org.charles.framework.util.DateUtil;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 /**
- * 创新高数据DAO
+ * 向上突破数据DAO
  * @author Charles
  *
  */
-public class NewTopDaoImpl extends NamedParameterJdbcDaoSupport implements NewTopDao{
+public class BreakThroughDaoImpl extends NamedParameterJdbcDaoSupport implements BreakThroughDao{
 	
 	@Override
 	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
-		getJdbcTemplate().update("delete from new_top where create_date >= ?", 
+		getJdbcTemplate().update("delete from break_through where create_date >= ?", 
 				new Object[]{ DateUtil.convertDateToString(date) });
 		if(andNow){
-			getJdbcTemplate().update("delete from new_top where create_date = ?", 
+			getJdbcTemplate().update("delete from break_through where create_date = ?", 
 					new Object[]{ DateUtil.convertDateToString(new Date()) });
 		}
 	}
 	
 	@Override
-	public void saveBatch(List<NewTop> pl) throws BusinessException {
-		String sql = "insert into new_top(stock_code,stock_name,updown_percent,turnover_rate,new_price,prev_top,prev_top_date,create_date)"
+	public void saveBatch(List<BreakThrough> pl) throws BusinessException {
+		String sql = "insert into break_through(stock_code,stock_name,new_price,amount,volume,updown_percent,turnover_rate,create_date)"
 				+ " values(?,?,?,?,?,?,?,?)";
 		
 		List<Object[]> params = new ArrayList<Object[]>(pl.size());
 		
 		for(int i=0; i<pl.size(); i++){
-			NewTop p = pl.get(i);
+			BreakThrough p = pl.get(i);
 			
 			params.add(new Object[]{
 				p.getStockCode(),
 				p.getStockName(),
+				p.getNewPrice(),
+				p.getAmount(),
+				p.getVolume(),
 				p.getUpdownPercent(),
 				p.getTurnoverRate(),
-				p.getNewPrice(),
-				p.getPrevTop(),
-				p.getPrevTopDate(),
 				new Date()
 			});
 		}

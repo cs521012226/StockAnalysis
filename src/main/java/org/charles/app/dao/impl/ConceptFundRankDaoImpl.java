@@ -7,6 +7,7 @@ import java.util.List;
 import org.charles.app.dao.ConceptFundRankDao;
 import org.charles.app.pojo.dto.ConceptFundRank;
 import org.charles.framework.exp.BusinessException;
+import org.charles.framework.util.DateUtil;
 import org.charles.framework.util.SqlHelper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
@@ -19,9 +20,11 @@ public class ConceptFundRankDaoImpl extends NamedParameterJdbcDaoSupport impleme
 	
 	@Override
 	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
-		getJdbcTemplate().update("delete from concept_fund_rank where create_date >= ?", new Object[]{ date });
+		getJdbcTemplate().update("delete from concept_fund_rank where create_date >= ?", 
+				new Object[]{ DateUtil.convertDateToString(date) });
 		if(andNow){
-			getJdbcTemplate().update("delete from concept_fund_rank where create_date = ?", new Object[]{ new Date() });
+			getJdbcTemplate().update("delete from concept_fund_rank where create_date = ?", 
+					new Object[]{ DateUtil.convertDateToString(new Date()) });
 		}
 	}
 

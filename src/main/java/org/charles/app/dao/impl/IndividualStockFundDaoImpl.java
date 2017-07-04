@@ -7,6 +7,7 @@ import java.util.List;
 import org.charles.app.dao.IndividualStockFundDao;
 import org.charles.app.pojo.dto.IndividualStockFund;
 import org.charles.framework.exp.BusinessException;
+import org.charles.framework.util.DateUtil;
 import org.charles.framework.util.SqlHelper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
@@ -19,9 +20,11 @@ public class IndividualStockFundDaoImpl extends NamedParameterJdbcDaoSupport imp
 	
 	@Override
 	public void deleteBeforeDate(Date date, boolean andNow) throws BusinessException {
-		getJdbcTemplate().update("delete from ind_stock_fund where create_date >= ?", new Object[]{ date });
+		getJdbcTemplate().update("delete from ind_stock_fund where create_date >= ?", 
+				new Object[]{ DateUtil.convertDateToString(date) });
 		if(andNow){
-			getJdbcTemplate().update("delete from ind_stock_fund where create_date = ?", new Object[]{ new Date() });
+			getJdbcTemplate().update("delete from ind_stock_fund where create_date = ?", 
+					new Object[]{ DateUtil.convertDateToString(new Date()) });
 		}
 	}
 

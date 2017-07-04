@@ -63,8 +63,12 @@
 	<bean id="individualStockFundDao" class="org.charles.app.dao.impl.IndividualStockFundDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<!-- 创新高数据D-->
+	<!-- 创新高数据-->
 	<bean id="newTopDao" class="org.charles.app.dao.impl.NewTopDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 向上突破数据-->
+	<bean id="breakThroughDao" class="org.charles.app.dao.impl.BreakThroughDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
