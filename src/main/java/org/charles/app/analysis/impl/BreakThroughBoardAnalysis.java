@@ -8,20 +8,21 @@ import org.charles.app.msg.TextTemplate;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.define.Constants;
 
+
 /**
- * 创新高且上龙虎榜的股票
+ * 向上突破且上龙虎榜的股票
  * @author Charles
  *
  */
-public class NewTopBoardAnalysis extends AbstractBoardAnalysis {
+public class BreakThroughBoardAnalysis extends AbstractBoardAnalysis {
 	
 	private AnalysisDao analysisDao;
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
-		List<BoardData> data = analysisDao.findNewTopBoard(beginDate);
+		List<BoardData> data = analysisDao.findBreakThroughBoard(beginDate);
 		
-		StringBuilder sb = new StringBuilder("创新高且上榜的股票: ");
+		StringBuilder sb = new StringBuilder("向上突破且上榜的股票: ");
 		if(data == null || data.isEmpty()){
 			sb.append("无");
 		}else{

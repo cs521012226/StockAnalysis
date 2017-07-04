@@ -5,7 +5,7 @@ import java.util.Date;
 import org.charles.app.msg.TextTemplate;
 
 /**
- * 龙虎榜分析
+ * 股票分析
  * @author Charles
  *
  */

@@ -44,8 +44,8 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		c.set(Calendar.SECOND, 0);
 		
 		return DateUtil.convertDateToString(c.getTime());*/
-		return DateUtil.addDay(new Date(), -1);
-//		return new Date();
+//		return DateUtil.addDay(new Date(), -1);
+		return new Date();
 	}
 
 	public List<StockAnalysis> getAnalysisList() {

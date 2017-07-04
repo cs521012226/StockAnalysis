@@ -3,7 +3,7 @@ package org.charles.app.analysis.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.charles.app.dao.BoardDataDao;
+import org.charles.app.dao.AnalysisDao;
 import org.charles.app.enums.TradeType;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.pojo.BoardData;
@@ -17,13 +17,13 @@ import org.charles.framework.define.Constants;
  */
 public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 	
-	private BoardDataDao boardDataDao;
+	private AnalysisDao analysisDao;
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
 		int limit = 3;
 		
-		List<BoardData> list = boardDataDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY, limit);
+		List<BoardData> list = analysisDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY, limit);
 		
 		StringBuilder buyList = new StringBuilder();
 		StringBuilder saleList = new StringBuilder();
@@ -59,12 +59,11 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 		textTemplate.appendText(sb.toString());
 	}
 
-	public BoardDataDao getBoardDataDao() {
-		return boardDataDao;
+	public AnalysisDao getAnalysisDao() {
+		return analysisDao;
 	}
 
-	public void setBoardDataDao(BoardDataDao boardDataDao) {
-		this.boardDataDao = boardDataDao;
+	public void setAnalysisDao(AnalysisDao analysisDao) {
+		this.analysisDao = analysisDao;
 	}
-	
 }

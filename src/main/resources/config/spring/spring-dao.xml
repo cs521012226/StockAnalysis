@@ -41,6 +41,11 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!--******************************* 股票分析 ********************************************************* -->
+	<bean id="analysisDao" class="org.charles.app.dao.impl.AnalysisDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
 	<!--********************** 爬虫部分DAO *********************************************-->
 	<!--营业部排名 -->
 	<bean id="companyRankDao" class="org.charles.app.dao.impl.CompanyRankDaoImpl">

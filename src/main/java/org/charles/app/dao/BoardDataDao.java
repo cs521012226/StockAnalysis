@@ -32,29 +32,6 @@ public interface BoardDataDao {
 	public List<BoardData> queryListByDate(Date date) throws BusinessException;
 	
 	
-	/** 
-	 * 统计cmpCode机构的数量，并且将数量大于lg的股票返回
-	 * @Author: Charles
-	 * @param beginDate
-	 * @param endDate
-	 * @param cmpCode
-	 * @param lg
-	 * @return
-	 * @throws BusinessException
-	 */
-	public List<BoardData> findCmpCount(Date beginDate, Date Date, String cmpCode, int lg) throws BusinessException;
-	
-	/**
-	 * 获取创新高且上榜的股票
-	 * @author YeChao
-	 * 2017年7月3日
-	 * @param date
-	 * @return
-	 * @throws BusinessException
-	 */
-	public List<BoardData> findNewTopBoard(Date date) throws BusinessException;
-	
-	
 	public void save(BoardData e) throws BusinessException;
 	
 	public boolean isExistData(Date boardDate) throws BusinessException;
