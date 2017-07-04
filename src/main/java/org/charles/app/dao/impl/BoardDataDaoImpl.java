@@ -128,10 +128,12 @@ public class BoardDataDaoImpl extends NamedParameterJdbcDaoSupport implements Bo
 		sb.append(" from board_data bd ");
 		sb.append(" inner join new_top nt ");
 		sb.append(" on bd.stock_code = nt.stock_code");
-		sb.append(" where bd.create_date = ?");
+		sb.append(" where bd.create_date = ? and nt.create_date = ?");
 		sb.append(" group by nt.stock_code,nt.stock_name");
 		
-		return getJdbcTemplate().query(sb.toString(), new Object[]{ DateUtil.convertDateToString(date) }, new RowMapper<BoardData>(){
+		String dateStr = DateUtil.convertDateToString(date);
+		
+		return getJdbcTemplate().query(sb.toString(), new Object[]{ dateStr, dateStr }, new RowMapper<BoardData>(){
 			
 			@Override
 			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {

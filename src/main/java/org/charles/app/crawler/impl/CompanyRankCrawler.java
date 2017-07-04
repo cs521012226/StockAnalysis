@@ -3,12 +3,15 @@ package org.charles.app.crawler.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.charles.app.dao.CompanyDao;
 import org.charles.app.dao.CompanyRankDao;
 import org.charles.app.enums.Period;
+import org.charles.app.pojo.Company;
 import org.charles.app.pojo.dto.CompanyRank;
 import org.charles.app.util.HtmlUtil;
 import org.charles.framework.util.DateUtil;
@@ -33,17 +36,14 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 	public void craw() {
 		companyRankDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 1), true);
 		
-		period = Period.DAY;
-		List<CompanyRank> rs = getData();
-		companyRankDao.saveBatch(rs);
-		
-		period = Period.WEEK;
-		rs = getData();
-		companyRankDao.saveBatch(rs);
-		
-		period = Period.MONTH;
-		rs = getData();
-		companyRankDao.saveBatch(rs);
+		List<Company> compList = companyDao.findAll(null);
+		Map<String, Company> compCache = new HashMap<String, Company>();
+		for(Company c : compList){
+			compCache.put(c.getCmpName(), c);
+		}
+		saveUnit(Period.DAY, compCache);
+		saveUnit(Period.WEEK, compCache);
+		saveUnit(Period.MONTH, compCache);
 	}
 	
 	public Unit<CompanyRank> parser(int startPageNumber, int endPageNumber){
@@ -69,7 +69,9 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 			for(Element r : row){
 				int colIndex = 1;
 				
-				String cmpName = StringUtil.trim(r.child(colIndex++).child(0).attr("title"));		//营业部名称
+				Element cmpEl = r.child(colIndex++);
+				String cmpName = StringUtil.trim(cmpEl.child(0).attr("title"));		//营业部名称
+				String style = StringUtil.trim(cmpEl.select("label").text());		//操作风格
 				Integer rankCount = Integer.valueOf(r.child(colIndex++).text());	//上榜次数
 				BigDecimal amount = convertUnit(r.child(colIndex++).text());		//合计动用资金
 				Integer rankCountYear = Integer.valueOf(r.child(colIndex++).text());	//年内上榜次数
@@ -77,6 +79,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 				
 				CompanyRank cr = new CompanyRank();
 				cr.setCmpName(cmpName);
+				cr.setStyle(style);
 				cr.setRankCount(rankCount);
 				cr.setAmount(amount);
 				cr.setRankCountYear(rankCountYear);
@@ -90,6 +93,22 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 		}
 		data.setData(rs);
 		return data;
+	}
+	
+	private void saveUnit(Period period, Map<String, Company> compCache){
+		this.period = period;
+		List<CompanyRank> data = getData();
+		for(CompanyRank cr : data){
+			Company newCmp = compCache.get(cr.getCmpName());
+			if(newCmp == null){
+				newCmp = new Company();
+				newCmp.setCmpName(cr.getCmpName());
+				newCmp.setStyle(cr.getStyle());
+				companyDao.save(newCmp);
+				compCache.put(cr.getCmpName(), newCmp);
+			}
+		}
+		companyRankDao.saveBatch(data);
 	}
 
 	private BigDecimal convertUnit(String text){

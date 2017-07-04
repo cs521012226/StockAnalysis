@@ -29,8 +29,8 @@ public class BreakThroughDaoImpl extends NamedParameterJdbcDaoSupport implements
 	
 	@Override
 	public void saveBatch(List<BreakThrough> pl) throws BusinessException {
-		String sql = "insert into break_through(stock_code,stock_name,new_price,amount,volume,updown_percent,turnover_rate,create_date)"
-				+ " values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into break_through(stock_code,stock_name,new_price,amount,volume,updown_percent,turnover_rate,period,create_date)"
+				+ " values(?,?,?,?,?,?,?,?,?)";
 		
 		List<Object[]> params = new ArrayList<Object[]>(pl.size());
 		
@@ -45,6 +45,7 @@ public class BreakThroughDaoImpl extends NamedParameterJdbcDaoSupport implements
 				p.getVolume(),
 				p.getUpdownPercent(),
 				p.getTurnoverRate(),
+				p.getPeriod().toString(),
 				new Date()
 			});
 		}

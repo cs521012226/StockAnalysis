@@ -2,6 +2,8 @@ package org.charles.app.pojo.dto;
 
 import java.math.BigDecimal;
 
+import org.charles.app.enums.Period;
+
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -18,6 +20,7 @@ public class BreakThrough {
 	private Integer volume;		//成交量（股）	
 	private String updownPercent;		//涨跌幅（%）
 	private String turnoverRate;		//换手率（%）
+	private Period period;		//日期类型
 	
 	@Override
 	public String toString() {
@@ -64,5 +67,11 @@ public class BreakThrough {
 	}
 	public void setTurnoverRate(String turnoverRate) {
 		this.turnoverRate = turnoverRate;
+	}
+	public Period getPeriod() {
+		return period;
+	}
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 }

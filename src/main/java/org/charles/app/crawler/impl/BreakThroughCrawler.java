@@ -78,6 +78,7 @@ public class BreakThroughCrawler extends BasePageCrawler<BreakThrough> {
 				cr.setVolume(volume.intValue());
 				cr.setUpdownPercent(updownPercent);
 				cr.setTurnoverRate(turnoverRate);
+				cr.setPeriod(period);
 				
 				rs.add(cr);
 			}

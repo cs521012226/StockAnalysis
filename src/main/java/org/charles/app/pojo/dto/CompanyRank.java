@@ -12,8 +12,9 @@ import com.alibaba.fastjson.JSONObject;
  * 2017年6月28日
  */
 public class CompanyRank {
-					
+	private String cmpCode;		//营业部代码
 	private String cmpName;		//营业部名称
+	private String style;		//操作风格
 	private Integer rankCount;	//上榜次数
 	private BigDecimal amount;		//合计动用资金（万）
 	private Integer rankCountYear;	//年内上榜次数
@@ -72,5 +73,20 @@ public class CompanyRank {
 	public void setPeriod(Period period) {
 		this.period = period;
 	}
-	
+
+	public String getCmpCode() {
+		return cmpCode;
+	}
+
+	public void setCmpCode(String cmpCode) {
+		this.cmpCode = cmpCode;
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
 }
