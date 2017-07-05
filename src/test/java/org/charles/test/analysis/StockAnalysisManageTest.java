@@ -13,6 +13,8 @@ public class StockAnalysisManageTest extends TestModel{
 	
 	@Before
 	public void startServer(){
+		//刷新参数
+//		SysParamUtil.refresh();
 	}
 	
 	@Test

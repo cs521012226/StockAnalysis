@@ -38,6 +38,9 @@
 		<property name="stockDao" ref="stockDao"></property>
 		<property name="boardDataDao" ref="boardDataDao"></property>
 	</bean> -->
+	<bean id="stockAnalysisService" class="org.charles.app.service.impl.StockAnalysisServiceImpl">
+		<property name="stockAnalysisDao" ref="stockAnalysisDao"></property>
+	</bean>
 	
 	<!-- 系统参数 -->
 	<bean id="sysParamService" class="org.charles.app.service.impl.SysParamServiceImpl">

@@ -11,7 +11,7 @@ import org.charles.framework.exp.BusinessException;
  * @author Charles
  *
  */
-public interface AnalysisDao {
+public interface StockAnalysisDao {
 	
 	/** 
 	 * 统计cmpCode机构的数量，并且将数量大于lg的股票返回

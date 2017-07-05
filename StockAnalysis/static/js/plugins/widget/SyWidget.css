@@ -1,0 +1,186 @@
+.sy-wg-fix{
+	position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/**
+SY.Dropdown
+*/
+.sy-wg-dropdown{
+	width : 250px;
+}
+.sy-wg-dropdown select{
+	width:100%;
+}
+
+/**
+SY.Page
+*/
+.sy-wg-pagination{width: 100%;min-width: 400px;text-align: center;padding-top:3px;}
+.sy-wg-pagination a.disabled{
+	color: #D5D5D5;
+    cursor: text;
+}
+.sy-wg-pagination a.disabled:hover{
+	text-decoration: none;
+}
+.sy-wg-pagination input {width: 40px;text-align: center;}
+
+
+/**
+SY.Grid
+*/
+.sy-wg-grid .sy-table{
+	width:100%;
+	margin: 0;
+}
+.sy-wg-grid .sy-table td,th{
+	word-break:break-all;
+}
+.sy-wg-grid .sy-table thead td,th{
+	text-align: center;
+}
+.sy-wg-grid .sy-wg-grid-content{
+	background: #fff;
+	min-height : 390px;
+	overflow: auto;
+}
+.sy-wg-grid-defaultMsg{
+	text-align: center;
+    line-height: 330px;
+}
+
+/**
+SY.Modal
+*/
+.sy-backdrop{
+	position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    background: #fff;
+}
+.sy-wg-modal .sy-backdrop{
+	display : none;
+}
+.sy-wg-modal .modal{
+	display : none;
+}
+.sy-wg-modal.open .sy-backdrop{
+	display : block;
+}
+.sy-wg-modal.open .modal{
+	display : block;
+}
+.sy-wg-modal .modal-body .sy-dialog{
+	display : block;
+	background: #fff;
+}
+
+/**
+SY.Popover
+*/
+.sy-wg-popover{
+	position: absolute;
+}
+.sy-wg-popover .sy-wg-fix{
+	display : none;
+}
+.sy-wg-popover.open .sy-wg-fix{
+	display : block;
+}
+.sy-wg-popover .sy-wg-popover-content{
+	display : none;
+}
+.sy-wg-popover.open .sy-wg-popover-content{
+	display : block;
+}
+
+.sy-wg-popover-content{
+    border: 1px solid #759dc0;
+    background-color: #fff;
+    position: relative;
+}
+
+
+/**
+SY.TreePicker
+*/
+
+
+.sy-wg-treepicker-display{
+	background: #fbfbfb;
+    width: 250px;
+    height: 34px;
+    line-height: 30px;
+    color: #A9A9A9;
+    border: 1px solid #d5d5d5;
+    cursor: pointer;
+    overflow: hidden;
+}
+.sy-wg-treepicker-icon{
+	text-align: center;
+    width: 24px;
+    font-size: 12px;
+    border-radius: 500em!important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1) inset;
+    line-height: 24px;
+    margin-left: 3px;
+}
+.sy-wg-treepicker-text{
+	padding-left: 5px;
+}
+
+.sy-wg-treepicker-tools{
+    text-align: center;
+    padding: 2px;
+    background: #F9F9F9;
+}
+.sy-wg-treepicker-tools > div{
+	height: 25px;
+    cursor: pointer;
+    padding: 0px 15px;
+    line-height: 25px;
+    width: 50px;
+    display: inline-block;
+}
+.sy-wg-treepicker-tools > div:hover{
+	background-color: #ddd;
+}
+.sy-wg-treepicker-search{
+	padding: 2px 6px 5px 6px;
+    background: #F9F9F9;
+    border-bottom: 1px solid #E6E6E6;
+}
+.sy-wg-treepicker-search-box{
+	text-align: center;
+    border: 1px solid #E6E6E6;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+}
+.sy-wg-treepicker-search-box input{
+    border: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: none;
+    padding-right:20px;
+}
+.sy-wg-treepicker-search-box i{
+	font-size : 13px;
+	padding: 3px;
+	position: absolute;
+    right: 0px;
+    top: 0;
+}
+.sy-wg-treepicker-content{
+    padding: 2px;
+	width: 260px;
+    height: 300px;
+    overflow: auto;
+}

@@ -15,6 +15,9 @@ import org.charles.app.service.SysParamQuery;
  */
 public class SysParamUtil {
 	
+	public static String DATA_EXTRACT_PERIOD = "DATA_EXTRACT_PERIOD";
+	public static String DATA_EXTRACT_FIRST_TIME = "DATA_EXTRACT_FIRST_TIME";
+	
 	private static List<SysParamQuery> sysParamQueryList;
 	public void setSysParamQueryList(List<SysParamQuery> sysParamQueryList) {
 		SysParamUtil.sysParamQueryList = sysParamQueryList;

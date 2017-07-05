@@ -3,7 +3,7 @@ package org.charles.app.analysis.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.charles.app.dao.AnalysisDao;
+import org.charles.app.dao.StockAnalysisDao;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.define.Constants;
@@ -16,11 +16,11 @@ import org.charles.framework.define.Constants;
  */
 public class BreakThroughBoardAnalysis extends AbstractBoardAnalysis {
 	
-	private AnalysisDao analysisDao;
+	private StockAnalysisDao stockAnalysisDao;
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
-		List<BoardData> data = analysisDao.findBreakThroughBoard(beginDate);
+		List<BoardData> data = stockAnalysisDao.findBreakThroughBoard(beginDate);
 		
 		StringBuilder sb = new StringBuilder("向上突破且上榜的股票: ");
 		if(data == null || data.isEmpty()){
@@ -38,11 +38,12 @@ public class BreakThroughBoardAnalysis extends AbstractBoardAnalysis {
 		textTemplate.appendText(sb.toString());
 	}
 
-	public AnalysisDao getAnalysisDao() {
-		return analysisDao;
+	public StockAnalysisDao getStockAnalysisDao() {
+		return stockAnalysisDao;
 	}
 
-	public void setAnalysisDao(AnalysisDao analysisDao) {
-		this.analysisDao = analysisDao;
+	public void setStockAnalysisDao(StockAnalysisDao stockAnalysisDao) {
+		this.stockAnalysisDao = stockAnalysisDao;
 	}
+
 }

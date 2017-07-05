@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.charles.app.dao.AnalysisDao;
+import org.charles.app.dao.StockAnalysisDao;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.exp.BusinessException;
 import org.charles.framework.util.DateUtil;
@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
  * @author Charles
  *
  */
-public class AnalysisDaoImpl extends NamedParameterJdbcDaoSupport implements AnalysisDao{
+public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implements StockAnalysisDao{
 
 	@Override
 	public List<BoardData> findCmpCount(Date beginDate, Date endDate, String cmpCode, int lg) throws BusinessException {

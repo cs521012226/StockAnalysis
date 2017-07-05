@@ -14,13 +14,8 @@
 		http://www.springframework.org/schema/aop
      	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-
-	<bean id="testAction" class="org.charles.app.action.TestAction">
-	</bean>
-	
-	
 	<!--********************************* 微信模块*************************************** -->
-	<bean id="msgReceiveAction" class="org.charles.wechat.action.MsgReceiveAction">
+	<!-- <bean id="msgReceiveAction" class="org.charles.wechat.action.MsgReceiveAction">
 		<property name="basicProcess" ref="basicProcess"></property>
-	</bean>
+	</bean> -->
 </beans>

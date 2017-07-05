@@ -42,7 +42,7 @@
 	</bean>
 	
 	<!--******************************* 股票分析 ********************************************************* -->
-	<bean id="analysisDao" class="org.charles.app.dao.impl.AnalysisDaoImpl">
+	<bean id="stockAnalysisDao" class="org.charles.app.dao.impl.StockAnalysisDaoImpl">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	

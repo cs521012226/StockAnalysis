@@ -29,15 +29,15 @@
 <!--***************************************** 分析器业务 ***************************************** -->	
 	<!-- 机构数目分析 -->
 	<bean id="organizationNumAnalysis" class="org.charles.app.analysis.impl.OrganizationNumAnalysis">
-		<property name="analysisDao" ref="analysisDao"></property>
+		<property name="stockAnalysisDao" ref="stockAnalysisDao"></property>
 	</bean>
 	<!-- 创新高且上榜的股票 -->
 	<bean id="newTopBoardAnalysis" class="org.charles.app.analysis.impl.NewTopBoardAnalysis">
-		<property name="analysisDao" ref="analysisDao"></property>
+		<property name="stockAnalysisDao" ref="stockAnalysisDao"></property>
 	</bean>
 	<!-- 向上突破且上榜的股票 -->
 	<bean id="breakThroughBoardAnalysis" class="org.charles.app.analysis.impl.BreakThroughBoardAnalysis">
-		<property name="analysisDao" ref="analysisDao"></property>
+		<property name="stockAnalysisDao" ref="stockAnalysisDao"></property>
 	</bean>
 	
 	<!-- 龙虎榜分析管理 -->

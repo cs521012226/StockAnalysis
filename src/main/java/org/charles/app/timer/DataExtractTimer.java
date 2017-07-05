@@ -15,9 +15,6 @@ import org.charles.framework.util.DateUtil;
  */
 public class DataExtractTimer {
 	
-	private static String DATA_EXTRACT_PERIOD = "DATA_EXTRACT_PERIOD";
-	private static String DATA_EXTRACT_FIRST_TIME = "DATA_EXTRACT_FIRST_TIME";
-	
 	private static DataExtractTimer self = new DataExtractTimer();
 	
 	private DataExtractTimer(){
@@ -42,7 +39,7 @@ public class DataExtractTimer {
 	 * @return
 	 */
 	public static Date getFirstTime(){
-		String dateStr = SysParamUtil.getByPrimaryKeyForOne(DATA_EXTRACT_FIRST_TIME).getValue();
+		String dateStr = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_FIRST_TIME).getValue();
 		Date date = DateUtil.convertStringToDate(dateStr, DateUtil.Pattern.TIME.getPattern());
 		
 		Calendar c = Calendar.getInstance();
@@ -60,7 +57,7 @@ public class DataExtractTimer {
 	 * @return
 	 */
 	public static long getPeriodTime(){
-		int hours = SysParamUtil.getByPrimaryKeyForOne(DATA_EXTRACT_PERIOD).getIntValue();
+		int hours = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_PERIOD).getIntValue();
 		long period = hours * 60 * 60 * 60 * 1000;
 		return period;
 	}
