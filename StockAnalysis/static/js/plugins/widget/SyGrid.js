@@ -668,6 +668,8 @@
 //						NY.Msg.error(rs.msg);
 						return ;
 					}
+					conf._return = rs;
+					
 					//  保存响应结果信息, 刷新内部数据
 					_this._rebuildData(rs.items, rs.total);
 					// 渲染数据体

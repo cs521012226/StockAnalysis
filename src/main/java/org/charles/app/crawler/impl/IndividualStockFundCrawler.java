@@ -26,9 +26,8 @@ public class IndividualStockFundCrawler extends BasePageCrawler<IndividualStockF
 	private IndividualStockFundDao individualStockFundDao;
 
 	@Override
-	public void craw() {
+	protected void process(){
 		individualStockFundDao.deleteBeforeDate(DateUtil.addDay(new Date(), 5), true);
-		
 		List<IndividualStockFund> rs = getData();
 		individualStockFundDao.saveBatch(rs);
 	}

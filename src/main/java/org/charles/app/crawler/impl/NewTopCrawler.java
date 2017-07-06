@@ -28,7 +28,7 @@ public class NewTopCrawler extends BasePageCrawler<NewTop> {
 	private NewTopDao newTopDao;
 
 	@Override
-	public void craw() {
+	protected void process(){
 		newTopDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 3), true);
 		
 		period = Period.MONTH;

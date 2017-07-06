@@ -29,7 +29,7 @@ public class ConceptFundRankCrawler extends BasePageCrawler<ConceptFundRank> {
 	private ConceptFundRankDao conceptFundRankDao;
 	
 	@Override
-	public void craw() {
+	protected void process(){
 		conceptFundRankDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 1), true);
 		
 		period = Period.DAY_3;

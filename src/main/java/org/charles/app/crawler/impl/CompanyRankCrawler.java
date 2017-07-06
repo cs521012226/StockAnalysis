@@ -33,7 +33,7 @@ public class CompanyRankCrawler extends BasePageCrawler<CompanyRank> {
 	private Period period;
 
 	@Override
-	public void craw() {
+	protected void process(){
 		companyRankDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 1), true);
 		
 		List<Company> compList = companyDao.findAll(null);

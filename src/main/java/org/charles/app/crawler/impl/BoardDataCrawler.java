@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.charles.app.crawler.UrlCrawler;
 import org.charles.app.dao.BoardDataDao;
 import org.charles.app.dao.CompanyDao;
 import org.charles.app.dao.StockDao;
@@ -29,7 +28,7 @@ import org.jsoup.select.Elements;
  * @author Charles
  *
  */
-public class BoardDataCrawler implements UrlCrawler {
+public class BoardDataCrawler extends BasePageCrawler<BoardData> {
 	private static Logger logger = Logger.getLogger(BoardDataCrawler.class);
 	
 	private String url;		//"http://data.10jqka.com.cn/market/longhu/"
@@ -38,17 +37,20 @@ public class BoardDataCrawler implements UrlCrawler {
 	private StockDao stockDao;
 	private BoardDataDao boardDataDao;
 	
+	
 	@Override
-	public void craw() {
+	protected void process(){
 		//删除三个月前的数据
 		boardDataDao.deleteBeforeDate(DateUtil.addMonth(new Date(), 3), true);
 		
-		List<BoardData> data = parser();
+		List<BoardData> data = getData();
 		saveData(data);
 	}
+	
 
-
-	public List<BoardData> parser() {
+	@Override
+	protected Unit<BoardData> parser(int startPageNumber, int endPageNumber) {
+		Unit<BoardData> data = new Unit<BoardData>();
 		
 		Document doc = HtmlUtil.getDoc(url);
 		/**
@@ -138,9 +140,11 @@ public class BoardDataCrawler implements UrlCrawler {
 			}*/
 			
 		}
-		
-		return rs;
+		data.setData(rs);
+		return data;
 	}
+
+
 	
 	public void setRowData(List<BoardData> rs, Elements row, TradeType tradeType, Stock stock, String reason, Date boardDate){
 		for(Element data : row){

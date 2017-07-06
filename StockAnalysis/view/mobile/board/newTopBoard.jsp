@@ -9,7 +9,17 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<p>newTopBoard</p>
+			<form class="form-inline">
+			  <div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon">日期</div>
+			      <div type="text" class="form-control queryDate" ></div>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		<div class="row">
+			<div id="list"></div>
 		</div>
 	</div>
 </body>

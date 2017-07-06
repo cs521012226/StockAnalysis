@@ -22,7 +22,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implements StockAnalysisDao{
 
 	@Override
-	public List<BoardData> findCmpCount(Date beginDate, Date endDate, String cmpCode, int lg) throws BusinessException {
+	public List<BoardData> findCmpCount(Date beginDate, Date endDate, String cmpCode) throws BusinessException {
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		StringBuilder sb = new StringBuilder();
@@ -42,11 +42,9 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 			param.put("endDate", DateUtil.convertDateToString(endDate));
 		}
 		sb.append(" group by s.stock_code,s.stock_name,bd.rank_type");
-		sb.append(" having cmp_count >= :cmpCount");
 		sb.append(" order by bd.rank_type,cmp_count desc,s.stock_code");
 		
 		param.put("cmpCode", cmpCode);
-		param.put("cmpCount", lg);
 		
 		return getNamedParameterJdbcTemplate().query(sb.toString(), param, new RowMapper<BoardData>(){
 
@@ -68,7 +66,7 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 
 
 	@Override
-	public List<BoardData> findNewTopBoard(Date date) throws BusinessException {
+	public List<BoardData> findNewTopBoardGroup(Date date) throws BusinessException {
 		
 		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name");
 		sb.append(" from board_data bd ");
@@ -88,6 +86,38 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 				m.setStockName(rs.getString("stock_name"));//股票名字
 				m.setStockCode(rs.getString("stock_code")); //股票代码
 //				m.setRankType(rs.getString("rank_type")); //排名类型
+				return m;
+			}
+			
+		});
+	}
+	@Override
+	public List<BoardData> findNewTopBoard(Date date) throws BusinessException {
+		
+		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name,");
+		sb.append("(select c.cmp_name From company c where c.cmp_code = bd.cmp_code) cmp_name,bd.reason,bd.rank_type,bd.buy_money,bd.sale_money");
+		sb.append(" from board_data bd ");
+		sb.append(" inner join new_top nt ");
+		sb.append(" on bd.stock_code = nt.stock_code");
+		sb.append(" where bd.create_date = ? and nt.create_date = ?");
+		sb.append(" order by nt.stock_code,bd.rank_type,bd.buy_money desc");
+		
+		String dateStr = DateUtil.convertDateToString(date);
+		
+		return getJdbcTemplate().query(sb.toString(), new Object[]{ dateStr, dateStr }, new RowMapper<BoardData>(){
+			
+			@Override
+			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				BoardData m = new BoardData();
+				m.setStockCode(rs.getString("stock_code")); //股票代码
+				m.setStockName(rs.getString("stock_name"));//股票名字
+				m.setCompanyName(rs.getString("cmp_name"));
+				m.setReason(rs.getString("reason"));
+				m.setRankType(rs.getString("rank_type")); //排名类型
+				m.setBuyMoney(rs.getBigDecimal("buy_money"));
+				m.setSaleMoney(rs.getBigDecimal("sale_money"));
+				
 				return m;
 			}
 			

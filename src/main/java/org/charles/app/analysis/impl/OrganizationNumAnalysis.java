@@ -21,13 +21,16 @@ public class OrganizationNumAnalysis extends AbstractBoardAnalysis {
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
+		List<BoardData> list = stockAnalysisDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY);
 		int limit = 3;
-		
-		List<BoardData> list = stockAnalysisDao.findCmpCount(beginDate, endDate, Stock.SPECIAL_ORG_KEY, limit);
 		
 		StringBuilder buyList = new StringBuilder();
 		StringBuilder saleList = new StringBuilder();
 		for(BoardData bd : list){
+			if(bd.getCmpCount() < limit){
+				continue;
+			}
+			
 			StringBuilder temp = null;
 			if(TradeType.BUY.eq(bd.getRankType())){
 				temp = buyList;

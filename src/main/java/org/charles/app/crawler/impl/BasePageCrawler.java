@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 import org.charles.app.crawler.UrlCrawler;
+import org.charles.app.util.LogUtil;
 import org.charles.framework.exp.BusinessException;
 
 /**
@@ -21,6 +22,37 @@ public abstract class BasePageCrawler<T> implements UrlCrawler{
 	protected Logger logger = Logger.getLogger(getClass());
 	private String url;
 	
+	@Override
+	public void craw() {
+		while(true){
+			try {
+				process();
+				break;
+			} catch (Exception e) {
+				LogUtil.expLog(e);
+				try {
+					Thread.sleep(10 * 1000);
+				} catch (InterruptedException e1) {
+					logger.error(e1.getMessage(), e1);
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 处理流程
+	 * @author YeChao
+	 * 2017年7月6日
+	 */
+	protected abstract void process();
+
+	/**
+	 * 获取数据模版
+	 * @author YeChao
+	 * 2017年7月6日
+	 * @return
+	 */
 	public List<T> getData() {
 		
 		int pageNumber = 1;
@@ -29,6 +61,10 @@ public abstract class BasePageCrawler<T> implements UrlCrawler{
 		
 		Unit<T> firstUnit = parser(pageNumber, endPage);
 		int totolPage = firstUnit.getTotolPage();
+		if(totolPage <= 0){
+			return firstUnit.getData();
+		}
+		
 		pageNumber = endPage + 1;
 		
 		List<Future<Unit<T>>> futureList = new ArrayList<Future<Unit<T>>>();
@@ -84,7 +120,7 @@ public abstract class BasePageCrawler<T> implements UrlCrawler{
 	
 	protected class Unit<K>{
 		private List<K> data;
-		private int totolPage;
+		private int totolPage = -1;
 		public List<K> getData() {
 			return data;
 		}

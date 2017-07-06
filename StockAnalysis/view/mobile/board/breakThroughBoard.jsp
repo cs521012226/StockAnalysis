@@ -9,7 +9,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<p>breakThourghBoard</p>
+			<div id="list"></div>
 		</div>
 	</div>
 </body>

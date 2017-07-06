@@ -19,14 +19,22 @@ public interface StockAnalysisDao {
 	 * @param beginDate
 	 * @param endDate
 	 * @param cmpCode
-	 * @param lg
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<BoardData> findCmpCount(Date beginDate, Date Date, String cmpCode, int lg) throws BusinessException;
+	public List<BoardData> findCmpCount(Date beginDate, Date Date, String cmpCode) throws BusinessException;
 	
 	/**
-	 * 获取创新高且上榜的股票
+	 * 获取创新高且上榜的股票汇总
+	 * @author YeChao
+	 * 2017年7月3日
+	 * @param date
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<BoardData> findNewTopBoardGroup(Date date) throws BusinessException;
+	/**
+	 * 获取创新高且上榜的股票列表
 	 * @author YeChao
 	 * 2017年7月3日
 	 * @param date

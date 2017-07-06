@@ -29,7 +29,7 @@ public class BreakThroughCrawler extends BasePageCrawler<BreakThrough> {
 	private BreakThroughDao breakThroughDao;
 
 	@Override
-	public void craw() {
+	protected void process() {
 		breakThroughDao.deleteBeforeDate(DateUtil.addDay(new Date(), 3), true);
 		
 		saveUnit(Period.DAY_10);
@@ -38,7 +38,8 @@ public class BreakThroughCrawler extends BasePageCrawler<BreakThrough> {
 		saveUnit(Period.DAY_60);
 		saveUnit(Period.DAY_90);
 	}
-	
+
+
 	@Override
 	public Unit<BreakThrough> parser(int startPageNumber, int endPageNumber){
 		

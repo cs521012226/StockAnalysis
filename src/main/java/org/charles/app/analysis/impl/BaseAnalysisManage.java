@@ -1,6 +1,5 @@
 package org.charles.app.analysis.impl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.charles.app.msg.DataOutput;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.msg.impl.FileDataOutput;
 import org.charles.app.msg.impl.MessageTextTemplate;
-import org.charles.app.util.SysParamUtil;
 import org.charles.framework.util.DateUtil;
 
 /**
@@ -27,6 +25,7 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		Date date = getDate();
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
+		textTemplate.appendText("日期: " + DateUtil.convertDateToString(date));
 		
 		for(StockAnalysis analysis : analysisList){
 			analysis.analyze(date, date, textTemplate);
@@ -47,8 +46,8 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
 		return DateUtil.convertDateToString(c.getTime());*/
-//		return DateUtil.addDay(new Date(), -1);
-		return new Date();
+		return DateUtil.addDay(new Date(), -1);
+//		return new Date();
 	}
 
 	public List<StockAnalysis> getAnalysisList() {

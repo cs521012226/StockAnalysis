@@ -19,7 +19,7 @@ public class NewTopBoardAnalysis extends AbstractBoardAnalysis {
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
-		List<BoardData> data = stockAnalysisDao.findNewTopBoard(beginDate);
+		List<BoardData> data = stockAnalysisDao.findNewTopBoardGroup(beginDate);
 		
 		StringBuilder sb = new StringBuilder("创新高且上榜的股票: ");
 		if(data == null || data.isEmpty()){

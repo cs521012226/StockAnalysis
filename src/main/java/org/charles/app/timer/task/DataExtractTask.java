@@ -4,7 +4,6 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 import org.charles.app.crawler.UrlCrawler;
-import org.charles.app.util.LogUtil;
 
 /**
  * 数据获取任务
@@ -35,20 +34,7 @@ public class DataExtractTask extends TimerTask{
 	
 	public void crawData(UrlCrawler crawer, String title){
 		logger.info("爬取" + title + "开始...");
-		while(true){
-			try {
-				crawer.craw();
-				break;
-			} catch (Exception e) {
-				LogUtil.expLog(e);
-				try {
-					Thread.sleep(10 * 1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-					break;
-				}
-			}
-		}
+		crawer.craw();
 		logger.info("爬取" + title + "结束...");
 	}
 

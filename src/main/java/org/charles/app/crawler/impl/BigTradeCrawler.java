@@ -24,17 +24,17 @@ public class BigTradeCrawler extends BasePageCrawler<BigTrade> {
 	private static Logger logger = Logger.getLogger(BigTradeCrawler.class);
 	
 	private BigTradeDao bigTradeDao;
-
+	
 	@Override
-	public void craw() {
+	protected void process() {
 		//删除3天前以及今天的数据
 		bigTradeDao.deleteBeforeDate(DateUtil.addDay(new Date(), 3), true);
 		
 		List<BigTrade> rs = getData();
 		bigTradeDao.saveBatch(rs);
-		
 	}
-	
+
+
 	public Unit<BigTrade> parser(int startPageNumber, int endPageNumber){
 		
 		List<BigTrade> rs = new ArrayList<BigTrade>();
