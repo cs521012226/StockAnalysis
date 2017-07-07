@@ -16,7 +16,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
        <!-- 配置自动扫描的包 -->
-	<context:component-scan base-package="org.charles.app.action"></context:component-scan>
+	<context:component-scan base-package="org.charles.*.action"></context:component-scan>
         
     <!-- <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
     	<property name="mappings">

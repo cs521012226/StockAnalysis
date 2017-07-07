@@ -5,28 +5,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.charles.wechat.basic.BasicProcess;
 import org.charles.wechat.basic.ConnectServer;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 接收微信推送消息
  * @author YeChao
  */
-public class MsgReceiveAction extends AbstractController{
+@Controller
+@RequestMapping("/wechat/msg")
+public class MsgReceiveAction {
 //	private static Logger logger = Logger.getLogger(MsgReceiveAction.class);
+	@Autowired
 	private BasicProcess basicProcess;
 	
-	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-//		basicProcess.process(req.getInputStream(), resp.getOutputStream());
-
+	@RequestMapping("/receive")
+	public void receive(HttpServletRequest req, HttpServletResponse resp){
 		ConnectServer connectServer = new ConnectServer(req, resp);
 		connectServer.response();
-		return null;
-	}
-
-	public void setBasicProcess(BasicProcess basicProcess) {
-		this.basicProcess = basicProcess;
 	}
 	
 }
