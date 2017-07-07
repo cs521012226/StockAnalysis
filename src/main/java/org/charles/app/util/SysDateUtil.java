@@ -20,7 +20,7 @@ public class SysDateUtil {
 	 */
 	public static Date getStockDate(){
 		
-		String dateStr = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_FIRST_TIME).getValue();
+		/*String dateStr = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_FIRST_TIME).getValue();
 		Date date = DateUtil.convertStringToDate(dateStr, DateUtil.Pattern.TIME.getPattern());
 		
 		Calendar c = Calendar.getInstance();
@@ -37,6 +37,7 @@ public class SysDateUtil {
 			return nowTime;
 		}else{
 			return DateUtil.addDay(nowTime, -1);
-		}
+		}*/
+		return new Date();
 	}
 }

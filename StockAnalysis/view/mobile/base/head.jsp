@@ -33,3 +33,5 @@ BuildPath = function(url){
 
 <!-- 系统工具 -->
 <script src="${ctx}/static/js/core/Util-1.0.0.js"></script>
+
+<link rel="stylesheet" href="${ctx}/static/css/mobile/base/common.css"></link>

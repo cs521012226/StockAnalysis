@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.charles.app.dao.StockAnalysisDao;
+import org.charles.app.enums.Period;
 import org.charles.app.pojo.BoardData;
-import org.charles.app.pojo.Stock;
+import org.charles.app.service.StockAnalysisService;
+import org.charles.app.util.SysDateUtil;
 import org.charles.framework.define.JObject;
 import org.charles.framework.support.view.FastJsonView;
 import org.charles.framework.util.DateUtil;
@@ -23,6 +25,8 @@ public class BoardAction{
 	
 	@Autowired
 	private StockAnalysisDao stockAnalysisDao;
+	@Autowired
+	private StockAnalysisService stockAnalysisService;
 
 	@RequestMapping("/orgCount")
 	public String orgCount(){
@@ -31,9 +35,8 @@ public class BoardAction{
 	
 	@RequestMapping("/orgCountData")
 	public ModelAndView orgCountData(HttpServletRequest request, HttpServletResponse response){
-//		Date date = SysDateUtil.getStockDate();
-		Date date = DateUtil.addDay(new Date(), -1);
-		List<BoardData> data = stockAnalysisDao.findCmpCount(date, date, Stock.SPECIAL_ORG_KEY);
+		Date date = SysDateUtil.getStockDate();
+		List<BoardData> data = stockAnalysisService.orgCountData(date);
 		JObject jobj = new JObject();
 		jobj.setItems(data);
 		jobj.putOther("date", DateUtil.convertDateToString(date));
@@ -49,9 +52,8 @@ public class BoardAction{
 	}
 	@RequestMapping("/newTopBoardData")
 	public ModelAndView newTopBoardData(){
-//		Date date = SysDateUtil.getStockDate();
-		Date date = DateUtil.addDay(new Date(), -1);
-		List<BoardData> data = stockAnalysisDao.findNewTopBoard(date);
+		Date date = SysDateUtil.getStockDate();
+		List<BoardData> data = stockAnalysisService.newTopBoardData(date);
 		JObject jobj = new JObject();
 		jobj.putOther("date", DateUtil.convertDateToString(date));
 		jobj.setItems(data);
@@ -68,12 +70,11 @@ public class BoardAction{
 	}
 	@RequestMapping("/breakThroughBoardData")
 	public ModelAndView breakThroughBoardData(){
-//		Date date = SysDateUtil.getStockDate();
-		Date date = DateUtil.addDay(new Date(), -1);
-		List<BoardData> data = stockAnalysisDao.findCmpCount(date, date, Stock.SPECIAL_ORG_KEY);
+		Date date = SysDateUtil.getStockDate();
+		List<BoardData> data = stockAnalysisService.breakThroughBoardData(date, Period.DAY_5);
 		JObject jobj = new JObject();
 		jobj.setItems(data);
-		
+		jobj.putOther("date", DateUtil.convertDateToString(date));
 		return FastJsonView.build(jobj);
 	}
 	

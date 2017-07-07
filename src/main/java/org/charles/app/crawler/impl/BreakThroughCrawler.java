@@ -32,6 +32,7 @@ public class BreakThroughCrawler extends BasePageCrawler<BreakThrough> {
 	protected void process() {
 		breakThroughDao.deleteBeforeDate(DateUtil.addDay(new Date(), 3), true);
 		
+		saveUnit(Period.DAY_5);
 		saveUnit(Period.DAY_10);
 		saveUnit(Period.DAY_20);
 		saveUnit(Period.DAY_30);

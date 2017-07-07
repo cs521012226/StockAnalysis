@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.charles.app.dao.StockAnalysisDao;
+import org.charles.app.enums.Period;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.exp.BusinessException;
 import org.charles.framework.util.DateUtil;
@@ -26,10 +27,7 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(" select s.stock_code,");
-		sb.append(" s.stock_name,");
-		sb.append(" bd.rank_type,");
-		sb.append(" count(bd.cmp_code) as cmp_count ");
+		sb.append(" select s.stock_code,s.stock_name,bd.rank_type,count(bd.cmp_code) as cmp_count");
 		sb.append(" from board_data bd");
 		sb.append(" inner join stock s on bd.stock_code = s.stock_code");
 		sb.append(" where bd.cmp_code = :cmpCode");
@@ -94,17 +92,31 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 	@Override
 	public List<BoardData> findNewTopBoard(Date date) throws BusinessException {
 		
-		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name,");
-		sb.append("(select c.cmp_name From company c where c.cmp_code = bd.cmp_code) cmp_name,bd.reason,bd.rank_type,bd.buy_money,bd.sale_money");
-		sb.append(" from board_data bd ");
-		sb.append(" inner join new_top nt ");
-		sb.append(" on bd.stock_code = nt.stock_code");
-		sb.append(" where bd.create_date = ? and nt.create_date = ?");
-		sb.append(" order by nt.stock_code,bd.rank_type,bd.buy_money desc");
+		StringBuilder sb = new StringBuilder("select nt.stock_code,nt.stock_name");
+				sb.append(",(select c.cmp_name From company c where c.cmp_code = bd.cmp_code) cmp_name");
+				sb.append(",bd.reason,bd.rank_type,bd.buy_money,bd.sale_money,c.style");
+				sb.append(",ifnull(cr.rank_count_d, 0) rank_count_d,ifnull(cr2.rank_count_w, 0) rank_count_w");
+				sb.append(" from board_data bd ");
+				sb.append(" inner join new_top nt on bd.stock_code = nt.stock_code ");
+				sb.append(" inner join company c on bd.cmp_code = c.cmp_code");
+				sb.append(" left join (");
+				sb.append("select crd.rank_count as rank_count_d,crd.cmp_code from company_rank crd");
+				sb.append(" where crd.create_date = :date and crd.period = 'DAY'");
+				sb.append(" group by crd.rank_count,crd.cmp_code");
+				sb.append(") cr on bd.cmp_code = cr.cmp_code");
+				sb.append(" left join (");
+				sb.append("select crd.rank_count as rank_count_w,crd.cmp_code from company_rank crd");
+				sb.append(" where crd.create_date = :date and crd.period = 'WEEK'");
+				sb.append(" group by crd.rank_count,crd.cmp_code");
+				sb.append(") cr2 on bd.cmp_code = cr2.cmp_code");
+
+				sb.append(" where bd.create_date = :date and nt.create_date = :date");
+				sb.append(" order by nt.stock_code,bd.rank_type,bd.buy_money desc");
 		
-		String dateStr = DateUtil.convertDateToString(date);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("date", DateUtil.convertDateToString(date));
 		
-		return getJdbcTemplate().query(sb.toString(), new Object[]{ dateStr, dateStr }, new RowMapper<BoardData>(){
+		return getNamedParameterJdbcTemplate().query(sb.toString(), params, new RowMapper<BoardData>(){
 			
 			@Override
 			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -115,9 +127,38 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 				m.setCompanyName(rs.getString("cmp_name"));
 				m.setReason(rs.getString("reason"));
 				m.setRankType(rs.getString("rank_type")); //排名类型
-				m.setBuyMoney(rs.getBigDecimal("buy_money"));
+				m.setBuyMoney(rs.getBigDecimal("buy_money"));	
 				m.setSaleMoney(rs.getBigDecimal("sale_money"));
+				m.setStyle(rs.getString("style"));
+				m.setRankCountD(rs.getInt("rank_count_d"));
+				m.setRankCountW(rs.getInt("rank_count_w"));
 				
+				return m;
+			}
+			
+		});
+	}
+	
+
+	@Override
+	public List<BoardData> findBreakThroughBoardGroup(Date date, Period period) throws BusinessException {
+		StringBuilder sb = new StringBuilder("select bt.stock_code,bt.stock_name from board_data bd");
+		sb.append(" inner join break_through bt on bd.stock_code = bt.stock_code");
+		sb.append(" where bd.create_date =  :date and bt.create_date = :date and bt.period = :period");
+		sb.append(" group by bt.stock_code,bt.stock_name");
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("date", DateUtil.convertDateToString(date));
+		params.put("period", period.toString());
+		
+		return getNamedParameterJdbcTemplate().query(sb.toString(), params, new RowMapper<BoardData>(){
+			
+			@Override
+			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				BoardData m = new BoardData();
+				m.setStockCode(rs.getString("stock_code")); //股票代码
+				m.setStockName(rs.getString("stock_name"));//股票名字
 				return m;
 			}
 			
@@ -126,27 +167,50 @@ public class StockAnalysisDaoImpl extends NamedParameterJdbcDaoSupport implement
 
 
 	@Override
-	public List<BoardData> findBreakThroughBoard(Date date) throws BusinessException {
-		StringBuilder sb = new StringBuilder("select bt.stock_code,bt.stock_name from break_through bt");
-		sb.append(" inner join board_data bd on bt.stock_code = bd.stock_code");
-		sb.append(" where bt.create_date = ? and bd.create_date = ?");
-		sb.append(" group by bt.stock_code,bt.stock_name");
+	public List<BoardData> findBreakThroughBoard(Date date, Period period) throws BusinessException {
+		StringBuilder sb = new StringBuilder("select bt.stock_code,bt.stock_name,");
+		sb.append("(select c.cmp_name From company c where c.cmp_code = bd.cmp_code) cmp_name,");
+		sb.append("bd.reason,bd.rank_type,");
+		sb.append("bd.buy_money,bd.sale_money,");
+		sb.append("c.style,");
+		sb.append(" ifnull(cr.rank_count_d, 0) rank_count_d,ifnull(cr2.rank_count_w, 0) rank_count_w");
+		sb.append(" from board_data bd ");
+		sb.append(" inner join break_through bt  on bd.stock_code = bt.stock_code");
+		sb.append(" inner join company c on bd.cmp_code = c.cmp_code");
+		sb.append(" left join (");
+		sb.append(" select crd.rank_count as rank_count_d,crd.cmp_code from company_rank crd where crd.create_date = :date and crd.period = 'DAY'");
+		sb.append(" group by crd.rank_count,crd.cmp_code");
+		sb.append(") cr on bd.cmp_code = cr.cmp_code");
+		sb.append(" left join (");
+		sb.append(" select crd.rank_count as rank_count_w,crd.cmp_code from company_rank crd where crd.create_date = :date and crd.period = 'WEEK'");
+		sb.append(" group by crd.rank_count,crd.cmp_code");
+		sb.append(") cr2 on bd.cmp_code = cr2.cmp_code");
+
+		sb.append(" where bd.create_date = :date and bt.create_date = :date and bt.period = :period order by bt.stock_code,bd.rank_type,bd.buy_money desc");
 		
-		String dateStr = DateUtil.convertDateToString(date);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("date", DateUtil.convertDateToString(date));
+		params.put("period", period.toString());
 		
-		return getJdbcTemplate().query(sb.toString(), new Object[]{ dateStr, dateStr }, new RowMapper<BoardData>(){
+		return getNamedParameterJdbcTemplate().query(sb.toString(), params, new RowMapper<BoardData>(){
 			
 			@Override
 			public BoardData mapRow(ResultSet rs, int rowNum) throws SQLException {
 				
 				BoardData m = new BoardData();
-				m.setStockName(rs.getString("stock_name"));//股票名字
 				m.setStockCode(rs.getString("stock_code")); //股票代码
-//				m.setRankType(rs.getString("rank_type")); //排名类型
+				m.setStockName(rs.getString("stock_name"));//股票名字
+				m.setCompanyName(rs.getString("cmp_name"));
+				m.setReason(rs.getString("reason"));
+				m.setRankType(rs.getString("rank_type")); //排名类型
+				m.setBuyMoney(rs.getBigDecimal("buy_money"));	
+				m.setSaleMoney(rs.getBigDecimal("sale_money"));
+				m.setStyle(rs.getString("style"));
+				m.setRankCountD(rs.getInt("rank_count_d"));
+				m.setRankCountW(rs.getInt("rank_count_w"));
 				return m;
 			}
 			
 		});
 	}
-	
 }

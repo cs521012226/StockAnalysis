@@ -9,11 +9,25 @@ $(function($){
 	           {name:'序号', field:"seq", width:50, type: SY.TYPE_SEQ},
 	           {name:'代码', field:"stockCode", width:80},
 	           {name:'名称', field:"stockName", width:80},
-	           {name:'买/卖', field:"rankType", width:80},
-	           {name:'原因', field:"reason"},
+	           {name:'买/卖', field:"rankType", width:80, formatter : function(value){
+	        	   if(value == 'B'){
+	        		   return '<span class="st-red-box">' + value + '</span>';
+	        	   }else{
+	        		   return '<span class="st-green-box">' + value + '</span>'; 
+	        	   }
+	           }},
+	           {name:'买入额（万）', field:"buyMoney", width:120},
+	           {name:'卖出额（万）', field:"saleMoney", width:120},
+	           {name:'买卖额占比', field:"moneyPercent", width:120, formatter : function(value){
+	        	   return value + "%";
+	           }},
 	           {name:'营业部', field:"companyName"},
-	           {name:'买入额（万）', field:"buyMoney"},
-	           {name:'卖出额（万）', field:"saleMoney"}
+	           {name:'风格', field:"style", width:120, formatter : function(value){
+	        	   return value ? '<span class="st-red-box">' + value + '</span>' : '';
+	           }},
+	           {name:'日榜数', field:"rankCountD", width:80},
+	           {name:'周榜数', field:"rankCountW", width:80},
+	           {name:'上榜原因', field:"reason"}
 			],
 			listeners : {
 				onLoad : function(){

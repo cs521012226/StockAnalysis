@@ -3,6 +3,7 @@ package org.charles.app.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.charles.app.enums.Period;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.exp.BusinessException;
 
@@ -46,11 +47,21 @@ public interface StockAnalysisDao {
 	/**
 	 * 获取向上突破且上榜的股票
 	 * @author YeChao
+	 * 2017年7月7日
+	 * @param date
+	 * @param period
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<BoardData> findBreakThroughBoardGroup(Date date, Period period) throws BusinessException;
+	/**
+	 * 获取向上突破且上榜的股票
+	 * @author YeChao
 	 * 2017年7月4日
 	 * @param date
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<BoardData> findBreakThroughBoard(Date date) throws BusinessException;
+	public List<BoardData> findBreakThroughBoard(Date date, Period period) throws BusinessException;
 	
 }

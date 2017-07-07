@@ -475,7 +475,7 @@
 				value = column.formatter(bean[column.field], bean);
 			}else{
 				value = bean[column.field];
-				if(!value){
+				if(typeof value == 'undefined'){
 					value = '';
 				}
 			}

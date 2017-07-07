@@ -1,6 +1,7 @@
 package org.charles.test.analysis;
 
 import org.charles.app.analysis.StockAnalysisManage;
+import org.charles.app.util.SysParamUtil;
 import org.charles.test.define.TestModel;
 import org.junit.Before;
 import org.junit.Test;

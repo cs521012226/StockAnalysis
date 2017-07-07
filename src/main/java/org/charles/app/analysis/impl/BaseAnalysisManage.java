@@ -9,6 +9,7 @@ import org.charles.app.msg.DataOutput;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.msg.impl.FileDataOutput;
 import org.charles.app.msg.impl.MessageTextTemplate;
+import org.charles.app.util.SysDateUtil;
 import org.charles.framework.util.DateUtil;
 
 /**
@@ -22,7 +23,7 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 	
 	@Override
 	public void process() {
-		Date date = getDate();
+		Date date = SysDateUtil.getStockDate();
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
 		textTemplate.appendText("日期: " + DateUtil.convertDateToString(date));
@@ -33,21 +34,6 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 		
 		DataOutput dataOutput = new FileDataOutput(textTemplate.format(), "D:/DEV/analysisResult.txt");
 		dataOutput.execute();
-	}
-	
-	public Date getDate(){
-		/*Date time = SysDateUtil*/
-		
-		/*Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		c.set(Calendar.MONTH, 5);
-		c.set(Calendar.DAY_OF_MONTH, 30);
-		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, 0);
-		c.set(Calendar.SECOND, 0);
-		return DateUtil.convertDateToString(c.getTime());*/
-		return DateUtil.addDay(new Date(), -1);
-//		return new Date();
 	}
 
 	public List<StockAnalysis> getAnalysisList() {

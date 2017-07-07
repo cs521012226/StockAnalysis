@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.charles.app.dao.StockAnalysisDao;
+import org.charles.app.enums.Period;
 import org.charles.app.msg.TextTemplate;
 import org.charles.app.pojo.BoardData;
 import org.charles.framework.define.Constants;
@@ -20,7 +21,7 @@ public class BreakThroughBoardAnalysis extends AbstractBoardAnalysis {
 	
 	@Override
 	public void analyze(Date beginDate, Date endDate, TextTemplate textTemplate) {
-		List<BoardData> data = stockAnalysisDao.findBreakThroughBoard(beginDate);
+		List<BoardData> data = stockAnalysisDao.findBreakThroughBoardGroup(beginDate, Period.DAY_5);
 		
 		StringBuilder sb = new StringBuilder("向上突破且上榜的股票: ");
 		if(data == null || data.isEmpty()){

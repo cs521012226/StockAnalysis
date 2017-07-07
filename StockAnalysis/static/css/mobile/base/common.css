@@ -1,0 +1,16 @@
+.st-red-box, .st-green-box{
+	color: #fff;
+	font-weight: bold;
+	padding: 0px 5px;
+}
+.st-red-box{
+	background: red;
+}
+.st-green-box{
+	background: green;
+}
+
+.st-red-bold{
+	color: red;
+	font-weight: bold;
+}
