@@ -1,5 +1,6 @@
 package org.charles.wechat.handler;
 
+import org.charles.app.analysis.StockAnalysisManage;
 import org.charles.wechat.vo.AbstractMessage;
 import org.charles.wechat.vo.EventType;
 import org.charles.wechat.vo.MsgType;
@@ -11,6 +12,8 @@ import org.dom4j.Document;
  * @author YeChao
  */
 public class TextMsgHandler extends AbstractMsgHandler{
+	
+	private StockAnalysisManage stockAnalysisManage;
 
 	@Override
 	protected boolean canHandle(MsgType msgType, EventType eventType) {
@@ -19,6 +22,9 @@ public class TextMsgHandler extends AbstractMsgHandler{
 
 	@Override
 	protected AbstractMessage handleInternal(Document inDoc) {
+		stockAnalysisManage.
+		
+		
 		TextMsg textMsg = new TextMsg();
 		textMsg.parseDom(inDoc);
 		textMsg.setContent("撒的发生的发生TextMsgHandler");
@@ -27,5 +33,11 @@ public class TextMsgHandler extends AbstractMsgHandler{
 		return textMsg;
 	}
 
-	
+	public StockAnalysisManage getStockAnalysisManage() {
+		return stockAnalysisManage;
+	}
+
+	public void setStockAnalysisManage(StockAnalysisManage stockAnalysisManage) {
+		this.stockAnalysisManage = stockAnalysisManage;
+	}
 }

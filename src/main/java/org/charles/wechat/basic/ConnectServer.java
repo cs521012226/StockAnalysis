@@ -43,11 +43,14 @@ public class ConnectServer {
 		timestamp = req.getParameter("timestamp");
 		nonce = req.getParameter("nonce");
 		echostr = req.getParameter("echostr");
+		System.out.println("signature = " + signature);
+		System.out.println("timestamp = " + timestamp);
+		System.out.println("nonce = " + nonce);
+		System.out.println("echostr = " + echostr);
 		
 		if(StringUtil.isBlank(signature)
 				|| StringUtil.isBlank(timestamp)
-				|| StringUtil.isBlank(nonce)
-				|| StringUtil.isBlank(echostr)){
+				|| StringUtil.isBlank(nonce)){
 			throw BusinessException.define("缺少参数");
 		}
 		return false;
@@ -83,14 +86,17 @@ public class ConnectServer {
 	 * @param echostr
 	 * @param out
 	 */
-	public void response(){
+	public boolean response(){
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(resp.getOutputStream());
-			if(checkSignature()){
+			if(!checkSignature()){
+				throw BusinessException.define("非常微信服务器发来的消息");
+			}
+			
+			if(!StringUtil.isBlank(echostr)){
+				pw = new PrintWriter(resp.getOutputStream());
 				pw.print(echostr);
-			}else{
-				pw.print("error");
+				return true;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,5 +105,6 @@ public class ConnectServer {
 				pw.close();
 			}
 		}
+		return false;
 	}
 }
