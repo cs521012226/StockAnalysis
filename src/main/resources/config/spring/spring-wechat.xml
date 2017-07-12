@@ -23,6 +23,7 @@
 		<property name="next" ref="textMsgHandler"></property>
 	</bean>
     <bean id="textMsgHandler" class="org.charles.wechat.handler.TextMsgHandler">
+    	<property name="stockAnalysisManage" ref="baseAnalysisManage"></property>
 	</bean>
 	
 	

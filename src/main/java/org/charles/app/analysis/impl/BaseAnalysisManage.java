@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.charles.app.analysis.StockAnalysis;
 import org.charles.app.analysis.StockAnalysisManage;
-import org.charles.app.msg.DataOutput;
 import org.charles.app.msg.TextTemplate;
-import org.charles.app.msg.impl.FileDataOutput;
 import org.charles.app.msg.impl.MessageTextTemplate;
 import org.charles.app.util.SysDateUtil;
 import org.charles.framework.util.DateUtil;
@@ -22,7 +20,7 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 	private List<StockAnalysis> analysisList;
 	
 	@Override
-	public void process() {
+	public TextTemplate process() {
 		Date date = SysDateUtil.getStockDate();
 		
 		TextTemplate textTemplate = new MessageTextTemplate();
@@ -32,8 +30,9 @@ public class BaseAnalysisManage implements StockAnalysisManage {
 			analysis.analyze(date, date, textTemplate);
 		}
 		
-		DataOutput dataOutput = new FileDataOutput(textTemplate.format(), "D:/DEV/analysisResult.txt");
-		dataOutput.execute();
+//		DataOutput dataOutput = new FileDataOutput(textTemplate.format(), "D:/DEV/analysisResult.txt");
+//		dataOutput.execute();
+		return textTemplate;
 	}
 
 	public List<StockAnalysis> getAnalysisList() {

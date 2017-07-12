@@ -1,6 +1,7 @@
 package org.charles.wechat.handler;
 
 import org.charles.app.analysis.StockAnalysisManage;
+import org.charles.app.msg.TextTemplate;
 import org.charles.wechat.vo.AbstractMessage;
 import org.charles.wechat.vo.EventType;
 import org.charles.wechat.vo.MsgType;
@@ -22,12 +23,12 @@ public class TextMsgHandler extends AbstractMsgHandler{
 
 	@Override
 	protected AbstractMessage handleInternal(Document inDoc) {
-		stockAnalysisManage.
 		
+		TextTemplate textTpl = stockAnalysisManage.process();
 		
 		TextMsg textMsg = new TextMsg();
 		textMsg.parseDom(inDoc);
-		textMsg.setContent("撒的发生的发生TextMsgHandler");
+		textMsg.setContent(textTpl.format());
 		textMsg.exchangeUser(textMsg);
 		
 		return textMsg;
