@@ -2,10 +2,8 @@ package org.charles.app.timer;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 
-import org.charles.app.util.SysParamUtil;
 import org.charles.framework.util.DateUtil;
 
 /**
@@ -24,14 +22,14 @@ public class DataExtractTimer {
 	private TimerTask dataExtractTask;
 	
 	public static void start(){
-		Timer t = new Timer();
+	}
+	
+	public static void main(String[] args) {
 		
-		Date firstTime = getFirstTime();
-		long periodTime = getPeriodTime();
-		
-		t.scheduleAtFixedRate(self.dataExtractTask, firstTime, periodTime);
+		start();
 		
 	}
+	
 	
 	/** 
 	 * 执行任务时间点
@@ -39,7 +37,8 @@ public class DataExtractTimer {
 	 * @return
 	 */
 	public static Date getFirstTime(){
-		String dateStr = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_FIRST_TIME).getValue();
+//		String dateStr = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_FIRST_TIME).getValue();
+		String dateStr = "09:02:00";
 		Date date = DateUtil.convertStringToDate(dateStr, DateUtil.Pattern.TIME.getPattern());
 		
 		Calendar c = Calendar.getInstance();
@@ -57,9 +56,10 @@ public class DataExtractTimer {
 	 * @return
 	 */
 	public static long getPeriodTime(){
-		int hours = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_PERIOD).getIntValue();
-		long period = hours * 60 * 60 * 60 * 1000;
-		return period;
+//		int hours = SysParamUtil.getByPrimaryKeyForOne(SysParamUtil.DATA_EXTRACT_PERIOD).getIntValue();
+//		long period = hours * 60 * 60 * 60 * 1000;
+//		return period;
+		return 60 * 1000;
 	}
 
 	public void setDataExtractTask(TimerTask dataExtractTask) {

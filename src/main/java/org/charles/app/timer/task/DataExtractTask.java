@@ -1,7 +1,5 @@
 package org.charles.app.timer.task;
 
-import java.util.TimerTask;
-
 import org.apache.log4j.Logger;
 import org.charles.app.crawler.UrlCrawler;
 
@@ -9,7 +7,7 @@ import org.charles.app.crawler.UrlCrawler;
  * 数据获取任务
  * @author YeChao
  */
-public class DataExtractTask extends TimerTask{
+public class DataExtractTask{
 	
 	private static Logger logger = Logger.getLogger(DataExtractTask.class);
 	
@@ -20,8 +18,8 @@ public class DataExtractTask extends TimerTask{
 	private UrlCrawler individualStockFundCrawler;
 	private UrlCrawler newTopCrawler;
 	private UrlCrawler breakThroughCrawler;
+	
 
-	@Override
 	public void run() {
 		crawData(boardDataCrawler, "龙虎榜数据");
 		crawData(companyRankCrawler, "营业部排名数据");

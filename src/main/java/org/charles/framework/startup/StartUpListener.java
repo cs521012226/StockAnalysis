@@ -25,7 +25,7 @@ public class StartUpListener implements ServletContextListener {
 		SysParamUtil.refresh();
 		
 		//定时任务
-		DataExtractTimer.start();         
+//		DataExtractTimer.start();         
 		
 	}
 }

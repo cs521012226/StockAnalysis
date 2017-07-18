@@ -30,6 +30,7 @@ BuildPath = function(url){
 <link rel="stylesheet" href="${ctx}/static/js/plugins/widget/SyWidget.css"></link>
 <script src="${ctx}/static/js/plugins/widget/SyCore.js"></script>
 <script src="${ctx}/static/js/plugins/widget/SyGrid.js"></script>
+<script src="${ctx}/static/js/plugins/widget/SyModal.js"></script>
 
 <!-- 系统工具 -->
 <script src="${ctx}/static/js/core/Util-1.0.0.js"></script>

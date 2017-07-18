@@ -7,7 +7,7 @@
 </head>
 <body>
 <script type="text/javascript">
-window.location.href="${ctx}/mb/home";
+window.location.href="${ctx}/mb/home/";
 </script>
 </body>
 </html>
